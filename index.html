@@ -11,6 +11,28 @@
 	<meta name="created" content="00:00:00">
 	<link rel="icon" href="logo.png" type="image/png"/>
 	<script src="https://cdn.tailwindcss.com"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						brand: {
+							navy: '#0B1120',
+							card: '#1E293B',
+							green: '#00FFA3',
+							greenHover: '#00E08F'
+						}
+					}
+				}
+			}
+		}
+	</script>
+	<style>
+		/* Smooth scrolling and modal locking */
+		html { scroll-behavior: smooth; }
+		body.modal-open { overflow: hidden; }
+		.modal-content { max-height: 80vh; overflow-y: auto; }
+	</style>
 </head>
 <body lang="en-US" dir="ltr"><p style="margin-bottom: 0in">A<img src="logo.png" name="Image1" align="left" width="512" height="512" border="0"/>
 
