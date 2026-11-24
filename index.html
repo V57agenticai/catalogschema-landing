@@ -3,196 +3,1434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agentic Commerce Optimizer | Shopify App</title>
+    <title>CatalogSchema | Structured Product Data &amp; Draft-First AI Descriptions for Shopify</title>
+    <meta name="description" content="CatalogSchema is a Shopify app that drafts conversion-ready product descriptions for your approval and publishes clean price, availability, and SKU facts as JSON-LD so search engines and AI shopping agents read your store accurately.">
+    <meta name="theme-color" content="#0B1120">
     <link rel="icon" type="image/gif" href="favicon.gif" />
     <link rel="alternate icon" type="image/x-icon" href="favicon.ico" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            navy: '#0B1120',
-                            card: '#1E293B',
-                            green: '#00FFA3',
-                            greenHover: '#00E08F'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        /* Smooth scrolling and modal locking */
-        html { scroll-behavior: smooth; }
+        :root {
+            --bg-canvas: #0B1120;
+            --bg-surface: #111A2E;
+            --bg-elevated: #1E293B;
+            --border-subtle: rgba(148, 163, 184, 0.16);
+            --border-accent: rgba(0, 255, 163, 0.38);
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            --accent: #00FFA3;
+            --accent-hover: #00E08F;
+            --accent-ink: #03140D;
+            --accent-soft: rgba(0, 255, 163, 0.07);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
+            --max-width: 1180px;
+            --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        [hidden] { display: none !important; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg-canvas);
+            background-image:
+                radial-gradient(1100px 560px at 85% -12%, rgba(0, 255, 163, 0.09), transparent 62%),
+                radial-gradient(900px 520px at -12% 8%, rgba(56, 189, 248, 0.06), transparent 60%);
+            background-repeat: no-repeat;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body.modal-open { overflow: hidden; }
-        .modal-content { max-height: 80vh; overflow-y: auto; }
+
+        img, svg { display: block; max-width: 100%; }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--accent-hover); }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0;
+            color: var(--text-primary);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        p { margin: 0; }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.86em;
+            color: var(--text-primary);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 1px 6px;
+            white-space: nowrap;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 16px;
+            top: -60px;
+            z-index: 200;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--accent);
+            color: var(--accent-ink);
+            font-weight: 600;
+        }
+        .skip-link:focus { top: 12px; color: var(--accent-ink); }
+
+        /* Navigation */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(11, 17, 32, 0.84);
+            -webkit-backdrop-filter: saturate(140%) blur(14px);
+            backdrop-filter: saturate(140%) blur(14px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 70px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.0625rem;
+            letter-spacing: -0.01em;
+        }
+        .brand:hover { color: var(--text-primary); }
+
+        .brand-logo {
+            max-height: 36px;
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-mark { width: 32px; height: 32px; flex: none; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: rgba(148, 163, 184, 0.09);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            line-height: 1.2;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .btn svg { width: 18px; height: 18px; }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--accent-ink);
+            box-shadow: 0 10px 30px -12px rgba(0, 255, 163, 0.55);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            color: var(--accent-ink);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(148, 163, 184, 0.04);
+            border-color: var(--border-subtle);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            border-color: var(--border-accent);
+            color: var(--text-primary);
+            background: var(--accent-soft);
+        }
+
+        .btn-sm { padding: 9px 15px; font-size: 0.875rem; }
+        .btn-lg { padding: 15px 24px; font-size: 1rem; }
+        .btn-block { width: 100%; }
+
+        /* Badges and tags */
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border: 1px solid var(--border-accent);
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(0, 255, 163, 0.18);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 999px;
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+        .badge svg { width: 16px; height: 16px; color: var(--accent); flex: none; }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 999px;
+            background: var(--bg-elevated);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .tag-accent {
+            border-color: var(--border-accent);
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero { padding: 96px 0 88px; }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+            gap: 56px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            margin: 22px 0 20px;
+            font-size: clamp(2.25rem, 4.6vw, 3.55rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+        }
+
+        .accent-text { color: var(--accent); }
+
+        .lead {
+            max-width: 40rem;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .trust-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 36px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Schema preview card */
+        .code-card {
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.55), rgba(17, 26, 46, 0.9));
+            box-shadow: var(--shadow);
+        }
+
+        .code-card-header,
+        .code-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 18px;
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+        }
+        .code-card-header { border-bottom: 1px solid var(--border-subtle); }
+        .code-card-footer { border-top: 1px solid var(--border-subtle); justify-content: flex-start; }
+        .code-card-footer svg { width: 16px; height: 16px; color: var(--accent); flex: none; }
+
+        .window-dots { display: inline-flex; gap: 6px; }
+        .window-dots span { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
+
+        .file-name { font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .status-pill {
+            padding: 3px 10px;
+            border: 1px solid var(--border-accent);
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .code-card pre {
+            margin: 0;
+            padding: 20px 22px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+        }
+        .code-card pre code {
+            padding: 0;
+            border: 0;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+            white-space: inherit;
+        }
+        .tk-key { color: #7DD3FC; }
+        .tk-str { color: var(--accent); }
+        .tk-punc { color: var(--text-muted); }
+
+        /* Sections */
+        .section {
+            padding: 96px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-head { max-width: 46rem; margin-bottom: 48px; }
+        .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+        .kicker {
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-head h2 {
+            font-size: clamp(1.75rem, 3.1vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .section-head p { margin-top: 16px; font-size: 1.0625rem; }
+
+        /* Cards */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 28px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            background: var(--bg-surface);
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover { border-color: var(--border-accent); }
+
+        .card-icon {
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+        .card-icon svg { width: 22px; height: 22px; }
+
+        .card h3 { font-size: 1.1875rem; font-weight: 700; }
+        .card .card-sub { margin-top: -6px; color: var(--accent); font-size: 0.8125rem; font-weight: 600; }
+        .card p { font-size: 0.96875rem; }
+
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 6px;
+        }
+
+        .check-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+        .check-list li { position: relative; padding-left: 24px; }
+        .check-list li::before {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 0.5em;
+            width: 10px;
+            height: 5px;
+            border-left: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: rotate(-45deg);
+        }
+
+        /* How it works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .step-num {
+            display: grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--accent-ink);
+            font-size: 0.9375rem;
+            font-weight: 800;
+        }
+
+        .callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-top: 32px;
+            padding: 22px 24px;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius);
+            background: linear-gradient(180deg, rgba(0, 255, 163, 0.07), rgba(0, 255, 163, 0.02));
+        }
+        .callout svg { width: 24px; height: 24px; color: var(--accent); flex: none; margin-top: 2px; }
+        .callout strong { color: var(--text-primary); }
+
+        /* Credits */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .price-card { padding: 32px; gap: 18px; }
+        .price-card.featured {
+            border-color: var(--border-accent);
+            box-shadow: 0 0 0 1px var(--border-accent), var(--shadow);
+        }
+
+        .price-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .card .price {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.05;
+        }
+        .price small {
+            margin-left: 6px;
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            letter-spacing: 0;
+        }
+
+        .price-note { color: var(--accent); font-weight: 600; }
+
+        .operation-explainer {
+            margin-top: 48px;
+            padding: 28px 32px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            background: var(--bg-surface);
+        }
+        .operation-explainer h3 { font-size: 1.25rem; margin-bottom: 10px; }
+        .operation-explainer p + p { margin-top: 10px; }
+
+        .ops {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .ops-panel {
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            background: var(--bg-surface);
+        }
+
+        .ops-panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(30, 41, 59, 0.45);
+        }
+        .ops-panel-head h3 { font-size: 1rem; }
+
+        .ops-list { margin: 0; padding: 0; list-style: none; }
+        .ops-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+        }
+        .ops-list li:last-child { border-bottom: 0; }
+
+        .fine-print {
+            max-width: 56rem;
+            margin-top: 24px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Policies */
+        .policy-card { color: inherit; }
+        .policy-card:hover { color: inherit; transform: translateY(-2px); box-shadow: var(--shadow); }
+        .policy-card .link-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: auto;
+            color: var(--accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .policy-card .link-arrow svg { width: 16px; height: 16px; transition: transform 0.15s ease; }
+        .policy-card:hover .link-arrow svg { transform: translateX(3px); }
+
+        /* Footer */
+        .site-footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--border-subtle);
+            background: rgba(2, 6, 23, 0.45);
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .footer-links a { color: var(--text-secondary); font-size: 0.9375rem; }
+        .footer-links a:hover { color: var(--text-primary); }
+
+        .footer-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.78);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 780px;
+            max-height: min(86vh, 920px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            background: var(--bg-surface);
+            box-shadow: 0 40px 120px -24px rgba(0, 0, 0, 0.85);
+            animation: modal-in 0.18s ease-out;
+        }
+        .modal-panel:focus { outline: none; }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translateY(10px) scale(0.985); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .modal-header h2 { font-size: 1.5rem; font-weight: 800; }
+        .modal-sub { margin-top: 6px; color: var(--text-muted); font-size: 0.8125rem; }
+
+        .modal-close {
+            display: grid;
+            place-items: center;
+            flex: none;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+        }
+        .modal-close:hover { border-color: var(--border-accent); color: var(--text-primary); background: var(--accent-soft); }
+        .modal-close svg { width: 18px; height: 18px; }
+
+        .modal-body {
+            padding: 24px 28px 30px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+        .modal-body h3 { margin: 26px 0 8px; font-size: 1rem; font-weight: 700; }
+        .modal-body h3:first-child { margin-top: 0; }
+        .modal-body p + p { margin-top: 10px; }
+        .modal-body ul { margin: 8px 0 0; padding-left: 20px; }
+        .modal-body li + li { margin-top: 6px; }
+        .modal-body strong { color: var(--text-primary); }
+
+        .contact-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 16px 18px;
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            background: var(--accent-soft);
+        }
+        .contact-box p { color: var(--text-primary); font-weight: 600; }
+        .contact-box span { display: block; color: var(--text-muted); font-size: 0.8125rem; font-weight: 400; }
+
+        .faq { display: grid; gap: 10px; }
+        .faq details {
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            background: rgba(11, 17, 32, 0.55);
+            transition: border-color 0.15s ease;
+        }
+        .faq details[open] { border-color: var(--border-accent); }
+        .faq summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 15px 18px;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+        }
+        .faq summary::-webkit-details-marker { display: none; }
+        .faq summary::after {
+            content: "+";
+            flex: none;
+            color: var(--accent);
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1;
+        }
+        .faq details[open] summary::after { content: "\2212"; }
+        .faq-answer { padding: 0 18px 16px; }
+        .faq-answer p + p { margin-top: 8px; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+            .steps, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 860px) {
+            html { scroll-padding-top: 116px; }
+            .site-header .nav { flex-wrap: wrap; row-gap: 6px; padding-top: 12px; padding-bottom: 8px; }
+            .nav-menu {
+                order: 3;
+                width: calc(100% + 24px);
+                margin: 0 -12px;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+            .nav-menu::-webkit-scrollbar { display: none; }
+            .nav-links a { white-space: nowrap; }
+        }
+
+        @media (max-width: 760px) {
+            .container { padding: 0 20px; }
+            .hero { padding: 64px 0 64px; }
+            .section { padding: 72px 0; }
+            .grid-3, .grid-4, .steps, .pricing-grid, .ops { grid-template-columns: minmax(0, 1fr); }
+            .card, .price-card { padding: 24px; }
+            .operation-explainer { padding: 24px; }
+            .ops-list li, .ops-panel-head { padding-left: 20px; padding-right: 20px; }
+            .hero-actions .btn { flex: 1 1 100%; }
+            .modal { padding: 12px; }
+            .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+            .modal-panel { max-height: 92vh; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
     </style>
 </head>
-<body class="bg-brand-navy text-gray-300 font-sans antialiased flex flex-col min-h-screen">
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Navigation -->
-    <nav class="border-b border-gray-800 bg-brand-navy/80 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <img src="logo.png" alt="" width="200"/>
-                <span class="text-white font-bold text-xl tracking-tight">Agentic Commerce Optimizer</span>
-            </div>
-            <a href="#" class="hidden md:block bg-brand-green text-brand-navy font-semibold px-5 py-2 rounded hover:bg-brand-greenHover transition-colors">
-                Install App
+    <header class="site-header">
+        <div class="container nav">
+            <a class="brand" href="#top" aria-label="CatalogSchema home">
+                <img class="brand-logo" src="logo.png" alt="CatalogSchema" onerror="this.hidden=true;this.nextElementSibling.hidden=false;" />
+                <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" hidden>
+                    <rect width="32" height="32" rx="8" fill="#00FFA3"/>
+                    <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#0B1120" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span aria-hidden="true">CatalogSchema</span>
             </a>
+            <nav class="nav-menu" aria-label="Primary">
+                <ul class="nav-links">
+                    <li><a href="#capabilities">Capabilities</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#credits">Credits</a></li>
+                    <li><a href="#policies">Policies</a></li>
+                </ul>
+            </nav>
+            <a class="btn btn-primary btn-sm" href="#">Install on Shopify</a>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <main class="flex-grow">
-        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
-            <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
-                Elevate your catalog. <br>
-                <span class="text-brand-green">Automate your SEO.</span>
-            </h1>
-            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-                Stop losing sales to empty product descriptions. Instantly weave raw specs into premium, high-converting copy and automatically inject compliant JSON-LD schema.
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="#" class="bg-brand-green text-brand-navy font-bold text-lg px-8 py-4 rounded shadow-lg shadow-brand-green/20 hover:bg-brand-greenHover transition-all hover:shadow-brand-green/40">
-                    Get Started on Shopify
-                </a>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid md:grid-cols-3 gap-8">
-            <div class="bg-brand-card p-6 rounded-xl border border-gray-800">
-                <h3 class="text-white font-bold text-xl mb-3">AI Text Elevations</h3>
-                <p class="text-gray-400">Transform basic tags and specs into conversion-ready copywriting with intelligent AI processing.</p>
-            </div>
-            <div class="bg-brand-card p-6 rounded-xl border border-gray-800">
-                <h3 class="text-white font-bold text-xl mb-3">Zero-Code Schema</h3>
-                <p class="text-gray-400">Automatically inject SEO-compliant JSON-LD securely via Shopify App Embed blocks.</p>
-            </div>
-            <div class="bg-brand-card p-6 rounded-xl border border-gray-800">
-                <h3 class="text-white font-bold text-xl mb-3">Bulk Optimization</h3>
-                <p class="text-gray-400">Process your entire catalog in controlled, rate-limited batches with a single click.</p>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center border-t border-gray-800">
-            <h2 class="text-3xl font-bold text-white mb-8">Simple, usage-based pricing</h2>
-            <div class="flex flex-col md:flex-row justify-center gap-6">
-                <div class="bg-brand-card p-8 rounded-xl border border-brand-green flex-1">
-                    <h3 class="text-2xl font-bold text-white mb-2">Free to Install</h3>
-                    <p class="text-brand-green font-semibold mb-4">10 Free Trial Credits</p>
-                    <p class="text-gray-400 text-sm">Experience the full power of AI elevations and schema injection risk-free upon installation.</p>
+    <main id="main">
+        <!-- Hero -->
+        <section class="hero" id="top">
+            <div class="container hero-grid">
+                <div>
+                    <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Shopify App &middot; Structured catalog data</span>
+                    <h1>Product data that search engines and <span class="accent-text">AI shopping agents</span> can read accurately.</h1>
+                    <p class="lead">CatalogSchema turns raw specs into reviewed, conversion-ready product descriptions and publishes clean price, availability, and SKU facts as JSON-LD, so search tools and AI shopping agents work from your real store data instead of guessing or relying on stale details.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary btn-lg" href="#">
+                            Install on Shopify
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a class="btn btn-secondary btn-lg" href="#how-it-works">See How It Works</a>
+                    </div>
+                    <ul class="trust-list" aria-label="Highlights">
+                        <li class="badge">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10.5 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Draft-First Approval
+                        </li>
+                        <li class="badge">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4c-1.5 0-2.2.8-2.2 2.2v1.6c0 .9-.5 1.5-1.5 1.5 1 0 1.5.6 1.5 1.5v1.6c0 1.4.7 2.2 2.2 2.2M13 4c1.5 0 2.2.8 2.2 2.2v1.6c0 .9.5 1.5 1.5 1.5-1 0-1.5.6-1.5 1.5v1.6c0 1.4-.7 2.2-2.2 2.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            App Embed JSON-LD
+                        </li>
+                        <li class="badge">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="M10 6.8v6.4M7.8 8.6h3.3a1.4 1.4 0 0 1 0 2.8H8.9a1.4 1.4 0 0 0 0 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            Operation-Based Credits
+                        </li>
+                        <li class="badge">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3 4.5 5.2v4.3c0 3.4 2.3 6 5.5 7.5 3.2-1.5 5.5-4.1 5.5-7.5V5.2L10 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m7.6 10 1.7 1.7 3.2-3.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            GDPR &amp; Webhook Ready
+                        </li>
+                    </ul>
                 </div>
-                <div class="bg-brand-card p-8 rounded-xl border border-gray-800 flex-1">
-                    <h3 class="text-2xl font-bold text-white mb-2">Starter Pack</h3>
-                    <p class="text-white text-xl font-semibold mb-4">$4.99 <span class="text-gray-500 text-sm font-normal">/ one-time</span></p>
-                    <p class="text-gray-400 text-sm">Credits never expire. No recurring monthly subscriptions. 1 operation = 1 credit.</p>
+
+                <figure class="code-card" aria-label="Example JSON-LD output">
+                    <div class="code-card-header">
+                        <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="file-name">product.jsonld &middot; example</span>
+                        <span class="status-pill">Draft approved</span>
+                    </div>
+<pre><code><span class="tk-punc">{</span>
+  <span class="tk-key">"@context"</span><span class="tk-punc">:</span> <span class="tk-str">"https://schema.org"</span><span class="tk-punc">,</span>
+  <span class="tk-key">"@type"</span><span class="tk-punc">:</span> <span class="tk-str">"Product"</span><span class="tk-punc">,</span>
+  <span class="tk-key">"name"</span><span class="tk-punc">:</span> <span class="tk-str">"Merino Trail Hoodie"</span><span class="tk-punc">,</span>
+  <span class="tk-key">"sku"</span><span class="tk-punc">:</span> <span class="tk-str">"MTH-NAVY-M"</span><span class="tk-punc">,</span>
+  <span class="tk-key">"description"</span><span class="tk-punc">:</span> <span class="tk-str">"Midweight merino, reviewed&hellip;"</span><span class="tk-punc">,</span>
+  <span class="tk-key">"offers"</span><span class="tk-punc">: {</span>
+    <span class="tk-key">"@type"</span><span class="tk-punc">:</span> <span class="tk-str">"Offer"</span><span class="tk-punc">,</span>
+    <span class="tk-key">"price"</span><span class="tk-punc">:</span> <span class="tk-str">"89.00"</span><span class="tk-punc">,</span>
+    <span class="tk-key">"priceCurrency"</span><span class="tk-punc">:</span> <span class="tk-str">"USD"</span><span class="tk-punc">,</span>
+    <span class="tk-key">"availability"</span><span class="tk-punc">:</span> <span class="tk-str">"https://schema.org/InStock"</span>
+  <span class="tk-punc">}</span>
+<span class="tk-punc">}</span></code></pre>
+                    <figcaption class="code-card-footer">
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10.5 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Published through a Shopify App Embed block &middot; no theme code edits
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Capabilities -->
+        <section class="section" id="capabilities" aria-labelledby="capabilities-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="kicker">Capabilities</p>
+                    <h2 id="capabilities-title">Clean catalog facts, controlled by you.</h2>
+                    <p>Three focused tools that keep your product data accurate for shoppers, search engines, and AI shopping agents, with nothing published until you approve it.</p>
+                </div>
+                <div class="grid-3">
+                    <article class="card">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m14 7.5 3 3" stroke="currentColor" stroke-width="1.8"/></svg>
+                        </div>
+                        <h3>AI Text Elevation</h3>
+                        <p class="card-sub">Draft-first &middot; up to 250 words</p>
+                        <p>Generates structured, conversion-ready product descriptions from your existing specs, tags, and notes. Every result is held as a draft until you explicitly approve it with Review &amp; Publish.</p>
+                        <ul class="check-list">
+                            <li>Drafts never go live automatically</li>
+                            <li>250-word ceiling keeps copy focused</li>
+                            <li>Edit or discard before publishing</li>
+                        </ul>
+                        <div class="card-meta">
+                            <span class="tag tag-accent">1 credit per elevation</span>
+                            <span class="tag">Review &amp; Publish: free</span>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 4.5C6.5 4.5 5.5 5.5 5.5 7.5v2.2c0 1.2-.7 2-2 2 1.3 0 2 .8 2 2v2.2c0 2 1 3 3 3M15.5 4.5c2 0 3 1 3 3v2.2c0 1.2.7 2 2 2-1.3 0-2 .8-2 2v2.2c0 2-1 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Zero-Code JSON-LD Schema</h3>
+                        <p class="card-sub">For search &amp; AI shopping agents</p>
+                        <p>Injects structured Product and Offer facts (price, stock and availability, and SKUs) through a Shopify App Embed block, so search engines and AI shopping agents read accurate store data instead of guessing or relying on stale details.</p>
+                        <ul class="check-list">
+                            <li>No theme code edits</li>
+                            <li>Turn the App Embed off anytime</li>
+                            <li>Built from your catalog fields</li>
+                        </ul>
+                        <div class="card-meta">
+                            <span class="tag tag-accent">1 credit per injection</span>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Controlled Catalog Hygiene</h3>
+                        <p class="card-sub">Batch-friendly &amp; safeguarded</p>
+                        <p>Process products in batches with SKU assignment, <strong>Off limits</strong> protection for products you never want changed, and single-tab execution safeguards that stop the same job from running twice.</p>
+                        <ul class="check-list">
+                            <li>SKU assignment in batches</li>
+                            <li>Off limits products are skipped</li>
+                            <li>Single-tab execution safeguard</li>
+                        </ul>
+                        <div class="card-meta">
+                            <span class="tag tag-accent">1 credit per SKU assignment</span>
+                            <span class="tag">Off limits: free</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="section" id="how-it-works" aria-labelledby="how-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="kicker">How It Works</p>
+                    <h2 id="how-title">Draft-first and controlled.</h2>
+                    <p>Every change moves through a clear, reviewable workflow. You decide what runs, what gets published, and what stays untouched.</p>
+                </div>
+                <ol class="steps">
+                    <li class="card">
+                        <span class="step-num" aria-hidden="true">1</span>
+                        <h3>Sync your catalog</h3>
+                        <p>Bring your products into CatalogSchema and use View Details to see each product's current fields.</p>
+                        <div class="card-meta"><span class="tag">Free</span></div>
+                    </li>
+                    <li class="card">
+                        <span class="step-num" aria-hidden="true">2</span>
+                        <h3>Elevate into drafts</h3>
+                        <p>Run AI Text Elevation on single products or a batch. Each result is saved as a draft of up to 250 words.</p>
+                        <div class="card-meta"><span class="tag tag-accent">1 credit per elevation</span></div>
+                    </li>
+                    <li class="card">
+                        <span class="step-num" aria-hidden="true">3</span>
+                        <h3>Review &amp; Publish</h3>
+                        <p>Read, edit, and approve each draft. Only the copy you approve is published to your Shopify store.</p>
+                        <div class="card-meta"><span class="tag">Free</span></div>
+                    </li>
+                    <li class="card">
+                        <span class="step-num" aria-hidden="true">4</span>
+                        <h3>Structure &amp; assign</h3>
+                        <p>Inject JSON-LD schema and assign SKUs. Products marked Off limits are excluded from these operations.</p>
+                        <div class="card-meta"><span class="tag tag-accent">1 credit per operation</span></div>
+                    </li>
+                </ol>
+                <div class="callout">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5.5 5.6v5.1c0 4 2.7 7.1 6.5 8.8 3.8-1.7 6.5-4.8 6.5-8.8V5.6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.2 12 2 2 3.8-3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <p><strong>Nothing goes live without your approval.</strong> AI output stays a draft until you choose Review &amp; Publish, and products marked Off limits are excluded from elevation, schema, and SKU operations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credits -->
+        <section class="section" id="credits" aria-labelledby="credits-title">
+            <div class="container">
+                <div class="section-head center">
+                    <p class="kicker">Credits</p>
+                    <h2 id="credits-title">Pay per operation. No subscriptions.</h2>
+                    <p>Start free, then add credit packs only when you need them. 1 operation = 1 credit, and credits never expire while the app is active.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <article class="card price-card">
+                        <div class="price-card-head">
+                            <h3>Free to Install</h3>
+                            <span class="tag">Start here</span>
+                        </div>
+                        <p class="price">$0 <small>to install</small></p>
+                        <p class="price-note">10 Free Trial Credits</p>
+                        <ul class="check-list">
+                            <li>Try every billable operation</li>
+                            <li>Review &amp; Publish, Sync, View Details, and Off limits are always free</li>
+                            <li>No recurring monthly subscription</li>
+                        </ul>
+                        <a class="btn btn-secondary btn-block" href="#">Install on Shopify</a>
+                    </article>
+
+                    <article class="card price-card featured">
+                        <div class="price-card-head">
+                            <h3>Usage-Based Credit Packs</h3>
+                            <span class="tag tag-accent">Starter Pack</span>
+                        </div>
+                        <p class="price">$4.99 <small>one-time</small></p>
+                        <p class="price-note">1 operation = 1 credit</p>
+                        <ul class="check-list">
+                            <li>Credits never expire while the app is active</li>
+                            <li>Purchased in-app through Shopify Billing</li>
+                            <li>Buy more only when you need them</li>
+                        </ul>
+                        <a class="btn btn-primary btn-block" href="#">Install on Shopify</a>
+                    </article>
+                </div>
+
+                <div class="operation-explainer">
+                    <h3>What counts as an operation?</h3>
+                    <p>An <strong>operation</strong> is each individual billable action executed, such as one AI text elevation, one JSON-LD schema injection, or one SKU assignment. It is not a fixed per-product count.</p>
+                    <p>A single product can use more than one credit (for example, one elevation plus one schema injection), and a bulk batch uses one credit for every operation it runs. New operation types are billed the same way: 1 credit per operation executed.</p>
+                </div>
+
+                <div class="ops">
+                    <div class="ops-panel">
+                        <div class="ops-panel-head">
+                            <h3>Billable operations</h3>
+                            <span class="tag tag-accent">1 credit each</span>
+                        </div>
+                        <ul class="ops-list">
+                            <li>AI text elevation <span class="tag tag-accent">1 credit</span></li>
+                            <li>JSON-LD schema injection <span class="tag tag-accent">1 credit</span></li>
+                            <li>SKU assignment <span class="tag tag-accent">1 credit</span></li>
+                        </ul>
+                    </div>
+                    <div class="ops-panel">
+                        <div class="ops-panel-head">
+                            <h3>Always free</h3>
+                            <span class="tag">0 credits</span>
+                        </div>
+                        <ul class="ops-list">
+                            <li>Review &amp; Publish <span class="tag">Free</span></li>
+                            <li>Sync <span class="tag">Free</span></li>
+                            <li>View Details <span class="tag">Free</span></li>
+                            <li>Off limits <span class="tag">Free</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="fine-print">Credits are non-refundable once an operation executes. Uninstalling CatalogSchema or a Shopify <code>shop/redact</code> request deletes stored usage and credit purchase records. See the <a href="#terms">Terms of Service</a> for full billing terms.</p>
+            </div>
+        </section>
+
+        <!-- Policies -->
+        <section class="section" id="policies" aria-labelledby="policies-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="kicker">Policies &amp; Support</p>
+                    <h2 id="policies-title">Clear terms. Real support.</h2>
+                    <p>Everything you need to evaluate CatalogSchema, in one place. Questions? Email <a href="mailto:support@catalogschema.com">support@catalogschema.com</a>.</p>
+                </div>
+                <div class="grid-4">
+                    <a class="card policy-card" href="#support">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1" fill="currentColor"/></svg>
+                        </div>
+                        <h3>FAQ &amp; Support</h3>
+                        <p>Workflow, credits, App Embed safety, and how to reach us.</p>
+                        <span class="link-arrow">Open <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </a>
+                    <a class="card policy-card" href="#privacy">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+                        </div>
+                        <h3>Privacy Policy</h3>
+                        <p>What we access, what we never collect, and how deletion works.</p>
+                        <span class="link-arrow">Open <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </a>
+                    <a class="card policy-card" href="#terms">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20V3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3.5V8h4M9.5 12.5h5M9.5 15.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Terms of Service</h3>
+                        <p>Service scope, operation-based billing, and your responsibilities.</p>
+                        <span class="link-arrow">Open <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </a>
+                    <a class="card policy-card" href="#disclaimers">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M12 4 3.5 19h17L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1" fill="currentColor"/></svg>
+                        </div>
+                        <h3>Disclaimers</h3>
+                        <p>Draft review, search outcomes, third-party limits, and billing.</p>
+                        <span class="link-arrow">Open <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </a>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-800 bg-brand-navy py-12">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <div>&copy; 2026 Agentic Commerce Optimizer. All rights reserved.</div>
-            <div class="flex gap-6">
-                <button onclick="openModal('faqModal')" class="hover:text-white transition-colors">FAQ & Support</button>
-                <button onclick="openModal('privacyModal')" class="hover:text-white transition-colors">Privacy Policy</button>
-                <button onclick="openModal('termsModal')" class="hover:text-white transition-colors">Terms of Service</button>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <a class="brand" href="#top" aria-label="CatalogSchema home">
+                    <img class="brand-logo" src="logo.png" alt="CatalogSchema" onerror="this.hidden=true;this.nextElementSibling.hidden=false;" />
+                    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" hidden>
+                        <rect width="32" height="32" rx="8" fill="#00FFA3"/>
+                        <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#0B1120" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span aria-hidden="true">CatalogSchema</span>
+                </a>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="#support">FAQ &amp; Support</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#disclaimers">Disclaimers</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 CatalogSchema. All rights reserved.</p>
+                <p><a href="mailto:support@catalogschema.com">support@catalogschema.com</a></p>
             </div>
         </div>
     </footer>
 
-    <!-- MODALS -->
-    
-    <!-- Support / FAQ Modal -->
-    <div id="faqModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-brand-card w-full max-w-2xl rounded-xl border border-gray-700 shadow-2xl flex flex-col">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-white">Support & FAQ</h2>
-                <button onclick="closeModal('faqModal')" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+    <!-- FAQ & Support -->
+    <div class="modal" id="modal-support" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-support-title" tabindex="-1">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-support-title">FAQ &amp; Support</h2>
+                    <p class="modal-sub">Answers to common questions about CatalogSchema.</p>
+                </div>
+                <button type="button" class="modal-close" data-modal-close aria-label="Close FAQ and Support">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
             </div>
-            <div class="p-6 modal-content text-gray-300 space-y-6">
-                <p><strong>Contact Support:</strong> <a href="mailto:support@catalogschema.com" class="text-brand-green hover:underline">support@catalogschema.com</a></p>
-                <div>
-                    <h4 class="text-white font-bold">Does this edit my theme code?</h4>
-                    <p class="text-sm mt-1">No, the app injects JSON-LD securely via Shopify's native App Embed blocks, leaving your core theme files completely untouched.</p>
+            <div class="modal-body">
+                <div class="contact-box">
+                    <p>Contact Support<span>We reply by email to every request.</span></p>
+                    <a class="btn btn-primary btn-sm" href="mailto:support@catalogschema.com">support@catalogschema.com</a>
                 </div>
-                <div>
-                    <h4 class="text-white font-bold">Why did my AI elevation fail / why is the button disabled?</h4>
-                    <p class="text-sm mt-1">The AI needs basic context to work. You must provide a minimum of 10 words of baseline text (specs, tags, rough drafts) for the AI to elevate. Blank products cannot be optimized.</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold">How does billing work?</h4>
-                    <p class="text-sm mt-1">You receive 10 free trial credits upon installation. After that, you can purchase $4.99 Starter Packs of credits inside the app. Credits never expire.</p>
+                <div class="faq">
+                    <details>
+                        <summary>How does the draft-first workflow work?</summary>
+                        <div class="faq-answer">
+                            <p>AI Text Elevation creates a draft description of up to 250 words from your product's existing specs, tags, and notes. The draft is held in CatalogSchema and is never published automatically.</p>
+                            <p>You read, edit, and approve each draft with <strong>Review &amp; Publish</strong>. Only approved copy is written to your Shopify store.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Does CatalogSchema edit my theme code?</summary>
+                        <div class="faq-answer">
+                            <p>No. JSON-LD schema is added through Shopify's native App Embed block, so your theme files are never modified. You can turn the App Embed off at any time from the Shopify theme editor.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>How are credits counted?</summary>
+                        <div class="faq-answer">
+                            <p>1 operation = 1 credit. An operation is each individual billable action executed, such as one AI text elevation, one JSON-LD schema injection, or one SKU assignment. It is not a fixed per-product count, so one product or one bulk batch can use several credits depending on what runs.</p>
+                            <p>You get 10 free trial credits when you install. Additional credits are purchased in-app as packs (Starter Pack: $4.99 one-time) and never expire while the app is active.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Which actions are free?</summary>
+                        <div class="faq-answer">
+                            <p>Review &amp; Publish, Sync, View Details, and Off limits are always free and never deduct credits.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>What does Off limits do?</summary>
+                        <div class="faq-answer">
+                            <p>Marking a product Off limits excludes it from elevation, schema, and SKU operations, including bulk batches, until you remove the flag. Setting or clearing Off limits is free.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>How does this help AI shopping agents and search?</summary>
+                        <div class="faq-answer">
+                            <p>Search engines and AI shopping agents read structured product data. Clean JSON-LD for price, availability, and SKUs, alongside descriptions you have reviewed, gives them accurate store facts to work from instead of guessing or relying on stale details.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Will this guarantee rankings, rich results, or AI citations?</summary>
+                        <div class="faq-answer">
+                            <p>No. Structured data and AI elevation improve clarity and support eligibility, but search engines and AI tools decide independently what to display. CatalogSchema does not guarantee search rankings, rich-snippet display, AI citations, or traffic lift. See the <a href="#disclaimers">Disclaimers</a> for details.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>What happens when I uninstall?</summary>
+                        <div class="faq-answer">
+                            <p>Uninstalling revokes CatalogSchema's access to your store. After uninstall, and when Shopify sends the <code>shop/redact</code> request, we delete your stored store data, including usage and credit purchase records. See the <a href="#privacy">Privacy Policy</a> for details.</p>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Privacy Policy Modal -->
-    <div id="privacyModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-brand-card w-full max-w-3xl rounded-xl border border-gray-700 shadow-2xl flex flex-col">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-white">Privacy Policy</h2>
-                <button onclick="closeModal('privacyModal')" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+    <!-- Privacy Policy -->
+    <div class="modal" id="modal-privacy" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title" tabindex="-1">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-privacy-title">Privacy Policy</h2>
+                    <p class="modal-sub">Last updated: November 24, 2026</p>
+                </div>
+                <button type="button" class="modal-close" data-modal-close aria-label="Close Privacy Policy">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
             </div>
-            <div class="p-6 modal-content text-gray-300 text-sm space-y-4">
-                <p><strong>Effective Date:</strong> November 4, 2026</p>
-                <p><strong>1. Introduction:</strong> This Privacy Policy describes how Agentic Commerce Optimizer ("we," "us," or "our") collects, uses, and protects information when you install and use our Shopify App. We comply with Shopify’s API Terms and GDPR.</p>
-                <p><strong>2. Information We Collect:</strong> We access store information (domain, plan, locale) and Product Data (titles, existing descriptions, tags, vendor information, media, SKUs).</p>
-                <p><strong>3. Information We DO NOT Collect:</strong> We do not access, collect, store, or process any buyer personally identifiable information (PII) such as customer names, shipping addresses, or payment data.</p>
-                <p><strong>4. How We Use Your Information:</strong> Product Data is used solely to generate AI-elevated descriptions and SEO-compliant JSON-LD schema.</p>
-                <p><strong>5. Third-Party Data Processing:</strong> Raw product data is processed securely through AI service providers but is strictly prohibited from being used to train external or public AI models.</p>
-                <p><strong>6. Data Retention and Deletion:</strong> Upon receiving the APP_UNINSTALLED webhook, we wipe your store data within 48 hours. We fully comply with Shopify’s mandatory GDPR webhooks.</p>
-                <p><strong>7. Contact Us:</strong> support@catalogschema.com.</p>
+            <div class="modal-body">
+                <h3>1. Introduction</h3>
+                <p>This Privacy Policy describes how CatalogSchema ("we," "us," or "our") collects, uses, and protects information when you install and use the CatalogSchema Shopify app. We operate in accordance with Shopify's API Terms and the EU General Data Protection Regulation (GDPR).</p>
+
+                <h3>2. Information We Collect</h3>
+                <ul>
+                    <li><strong>Store metadata:</strong> shop domain, plan, and locale.</li>
+                    <li><strong>Product catalog fields:</strong> titles, existing descriptions, tags, vendor, product type, variants, SKUs, prices, inventory availability, and media references.</li>
+                    <li><strong>App usage records:</strong> operations executed (stored in <code>shopify_copy_usage</code>) and credit purchases (stored in <code>shopify_credit_purchases</code>).</li>
+                </ul>
+
+                <h3>3. Information We Do Not Collect</h3>
+                <p>We do not access, collect, or store any buyer personally identifiable information (PII), such as customer names, email addresses, shipping addresses, or payment details.</p>
+
+                <h3>4. How We Use Information</h3>
+                <p>Store and product data are used only to provide the app: generating AI description drafts for your review, building JSON-LD structured data, assigning SKUs, and tracking credit usage.</p>
+
+                <h3>5. AI Processing</h3>
+                <p>Product data sent for AI text elevation is processed through third-party AI service providers. Those providers are prohibited from using your data to train external or public AI models.</p>
+
+                <h3>6. Retention and Deletion</h3>
+                <p>We retain store data while CatalogSchema is installed. When you uninstall, and when Shopify sends the <code>shop/redact</code> webhook, we permanently delete your store's data, including stored <code>shopify_copy_usage</code> and <code>shopify_credit_purchases</code> records.</p>
+                <p>We support Shopify's mandatory GDPR webhooks. Because we hold no buyer PII, <code>customers/data_request</code> and <code>customers/redact</code> requests involve no customer data on our side.</p>
+
+                <h3>7. Contact</h3>
+                <p>Questions about privacy: <a href="mailto:support@catalogschema.com">support@catalogschema.com</a>.</p>
             </div>
         </div>
     </div>
 
-    <!-- Terms of Service Modal -->
-    <div id="termsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-brand-card w-full max-w-3xl rounded-xl border border-gray-700 shadow-2xl flex flex-col">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-white">Terms of Service</h2>
-                <button onclick="closeModal('termsModal')" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+    <!-- Terms of Service -->
+    <div class="modal" id="modal-terms" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-terms-title" tabindex="-1">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-terms-title">Terms of Service</h2>
+                    <p class="modal-sub">Last updated: November 24, 2026</p>
+                </div>
+                <button type="button" class="modal-close" data-modal-close aria-label="Close Terms of Service">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
             </div>
-            <div class="p-6 modal-content text-gray-300 text-sm space-y-4">
-                <p><strong>Effective Date:</strong> November 4, 2026</p>
-                <p><strong>1. Acceptance:</strong> By installing the App, you agree to these terms.</p>
-                <p><strong>2. Description:</strong> The App provides AI product text elevation and schema injection safely via App Embed blocks.</p>
-                <p><strong>3. Billing:</strong> Merchants receive 10 free trial credits. 1 operation = 1 credit. Additional credits cost $4.99 per Starter Pack. Credits never expire and are non-refundable once an operation is executed.</p>
-                <p><strong>4. User Responsibilities & Data Requirements:</strong> To achieve optimal results and prevent AI hallucinations, you must provide substantial baseline data for the AI to process. <strong>Your product listing must contain a minimum of 10 words of baseline text</strong> (such as detailed technical specs, comprehensive bullet points, or a rough draft). The AI is designed to elevate your raw data into professional copy. It is strictly prohibited to use the App to generate long-form content from zero-effort inputs or completely blank descriptions.</p>
-                <p><strong>5. Liability:</strong> We do not guarantee specific search rankings or traffic. We are not liable for temporary service interruptions from third-party AI outages or API limits.</p>
-                <p><strong>6. Termination:</strong> Terminate anytime by uninstalling the App in Shopify, which revokes our access and triggers data cleanup.</p>
-                <p><strong>7. Contact:</strong> support@catalogschema.com.</p>
+            <div class="modal-body">
+                <h3>1. Acceptance</h3>
+                <p>By installing or using CatalogSchema (the "App"), you agree to these Terms of Service. If you do not agree, do not install or use the App.</p>
+
+                <h3>2. Service Scope</h3>
+                <p>The App provides draft-first AI product description elevation, JSON-LD structured data injection through Shopify App Embed blocks, SKU assignment, and related catalog tools such as Sync, View Details, Off limits, and Review &amp; Publish.</p>
+
+                <h3>3. Credits and Billing</h3>
+                <ul>
+                    <li>New installs receive 10 free trial credits.</li>
+                    <li><strong>1 operation = 1 credit.</strong> An operation is each individual billable action executed, such as one AI text elevation, one JSON-LD schema injection, or one SKU assignment. A single product or bulk batch may use multiple credits depending on the operations run.</li>
+                    <li>Review &amp; Publish, Sync, View Details, and Off limits are free and never deduct credits.</li>
+                    <li>Additional credits are purchased as packs through Shopify Billing.</li>
+                    <li>Credits are non-refundable once an operation executes.</li>
+                    <li>Credits never expire while the App is active on your store.</li>
+                </ul>
+
+                <h3>4. Merchant Responsibilities</h3>
+                <p>You are responsible for reviewing and approving AI-generated drafts through Review &amp; Publish before they go live, and for the accuracy of your product data, including prices, availability, SKUs, and any claims in your descriptions.</p>
+
+                <h3>5. No Guarantees</h3>
+                <p>The App improves the clarity and structure of your product data. We do not guarantee search rankings, rich results, AI citations, or traffic increases. See the <a href="#disclaimers">Disclaimers</a>.</p>
+
+                <h3>6. Termination</h3>
+                <p>You can stop using the App at any time by uninstalling it from your Shopify admin. Uninstalling revokes our access and triggers data cleanup as described in the <a href="#privacy">Privacy Policy</a>.</p>
+
+                <h3>7. Contact</h3>
+                <p>Questions about these terms: <a href="mailto:support@catalogschema.com">support@catalogschema.com</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disclaimers -->
+    <div class="modal" id="modal-disclaimers" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-disclaimers-title" tabindex="-1">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-disclaimers-title">Disclaimers</h2>
+                    <p class="modal-sub">Last updated: November 24, 2026</p>
+                </div>
+                <button type="button" class="modal-close" data-modal-close aria-label="Close Disclaimers">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Review AI drafts before publishing</h3>
+                <p>AI-generated descriptions can contain errors or omissions. You are responsible for reviewing, editing, and approving every draft through Review &amp; Publish before it is published live on your store.</p>
+
+                <h3>No guaranteed search or AI outcomes</h3>
+                <p>Structured data and AI elevation improve clarity and support eligibility for enhanced search features. Search engines and AI tools decide independently what to display, so CatalogSchema does not guarantee search rankings, rich results, AI citations, or traffic increases.</p>
+
+                <h3>Third-party services and rate limits</h3>
+                <p>The App depends on third-party AI providers and Shopify's APIs. Their availability, rate limits, and outages can delay or interrupt operations, and we are not liable for interruptions caused by these services.</p>
+
+                <h3>Shopify Billing</h3>
+                <p>Credit purchases are processed through Shopify Billing and appear on your Shopify invoice. These charges are also subject to Shopify's own terms and billing policies.</p>
+
+                <h3>Contact</h3>
+                <p><a href="mailto:support@catalogschema.com">support@catalogschema.com</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-            document.body.classList.add('modal-open');
-        }
+        (function () {
+            var MODALS = {
+                support: 'modal-support',
+                privacy: 'modal-privacy',
+                terms: 'modal-terms',
+                disclaimers: 'modal-disclaimers'
+            };
+            var FOCUSABLE = 'a[href], button:not([disabled]), summary, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+            var activeModal = null;
+            var returnFocusTo = null;
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-            document.body.classList.remove('modal-open');
-        }
-
-        // Close on clicking outside the modal content
-        window.onclick = function(event) {
-            if (event.target.classList.contains('fixed')) {
-                event.target.classList.add('hidden');
-                document.body.classList.remove('modal-open');
+            function modalKeyFromHash() {
+                var key = decodeURIComponent(window.location.hash.slice(1)).toLowerCase();
+                return Object.prototype.hasOwnProperty.call(MODALS, key) ? key : null;
             }
-        }
+
+            function openModal(key) {
+                var modal = document.getElementById(MODALS[key]);
+                if (!modal || modal === activeModal) return;
+                if (activeModal) {
+                    activeModal.hidden = true;
+                } else {
+                    returnFocusTo = document.activeElement;
+                }
+                activeModal = modal;
+                modal.hidden = false;
+                document.body.classList.add('modal-open');
+                modal.querySelector('.modal-body').scrollTop = 0;
+                modal.querySelector('.modal-panel').focus();
+            }
+
+            function closeModal() {
+                if (!activeModal) return;
+                activeModal.hidden = true;
+                activeModal = null;
+                document.body.classList.remove('modal-open');
+                if (modalKeyFromHash()) {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                }
+                if (returnFocusTo && typeof returnFocusTo.focus === 'function') {
+                    returnFocusTo.focus();
+                }
+                returnFocusTo = null;
+            }
+
+            function syncModalWithHash() {
+                var key = modalKeyFromHash();
+                if (key) {
+                    openModal(key);
+                } else if (activeModal) {
+                    closeModal();
+                }
+            }
+
+            document.addEventListener('click', function (event) {
+                if (event.target.closest('[data-modal-close]')) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (!activeModal) return;
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    closeModal();
+                    return;
+                }
+                if (event.key !== 'Tab') return;
+                var focusable = Array.prototype.filter.call(activeModal.querySelectorAll(FOCUSABLE), function (el) {
+                    return el.getClientRects().length > 0;
+                });
+                if (!focusable.length) return;
+                var first = focusable[0];
+                var last = focusable[focusable.length - 1];
+                var panel = activeModal.querySelector('.modal-panel');
+                if (event.shiftKey && (document.activeElement === first || document.activeElement === panel)) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            });
+
+            window.addEventListener('hashchange', syncModalWithHash);
+            syncModalWithHash();
+        })();
     </script>
 </body>
 </html>
