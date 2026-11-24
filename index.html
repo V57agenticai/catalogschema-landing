@@ -958,6 +958,7 @@
             flex-direction: column;
             width: 100%;
             max-width: 780px;
+            height: min(86vh, 820px);
             max-height: min(86vh, 820px);
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
@@ -1001,6 +1002,8 @@
         .modal-close svg { width: 18px; height: 18px; }
 
         .modal-body {
+            flex: 1 1 auto;
+            min-height: 0;
             padding: 24px 28px 30px;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -1058,7 +1061,7 @@
             transition: border-color 0.15s ease;
             cursor: pointer;
         }
-        .faq details[open] { border-color: var(--border-accent); }
+        .faq details.is-expanded { border-color: var(--border-accent); }
         .faq summary {
             display: flex;
             align-items: center;
@@ -1079,8 +1082,26 @@
             font-weight: 500;
             line-height: 1;
         }
-        .faq details[open] summary::after { content: "\2212"; }
-        .faq-answer { padding: 0 18px 16px; cursor: pointer; }
+        .faq details.is-expanded summary::after { content: "\2212"; }
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            opacity: 0;
+            transition:
+                grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+        }
+        .faq details.is-expanded .faq-answer {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+        .faq-answer-inner {
+            overflow: hidden;
+            min-height: 0;
+            padding: 0 18px;
+        }
+        .faq details.is-expanded .faq-answer-inner { padding-bottom: 16px; }
         .faq-answer a { cursor: pointer; }
         .faq-answer p + p { margin-top: 8px; }
 
@@ -1118,7 +1139,10 @@
             .hero-actions .btn { flex: 1 1 100%; }
             .modal { padding: 12px; }
             .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
-            .modal-panel { max-height: 92vh; }
+            .modal-panel {
+                height: min(92vh, 820px);
+                max-height: min(92vh, 820px);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1669,51 +1693,67 @@
                     <details>
                         <summary>How does the draft-first workflow work?</summary>
                         <div class="faq-answer">
-                            <p>AI Text Elevation creates a draft description of up to 250 words from your product's existing specs, tags, and notes. The draft is held in CatalogSchema and is never published automatically.</p>
-                            <p>You read, edit, and approve each draft with <strong>Review &amp; Publish</strong>. Only approved copy is written to your Shopify store.</p>
+                            <div class="faq-answer-inner">
+                                <p>AI Text Elevation creates a draft description of up to 250 words from your product's existing specs, tags, and notes. The draft is held in CatalogSchema and is never published automatically.</p>
+                                <p>You read, edit, and approve each draft with <strong>Review &amp; Publish</strong>. Only approved copy is written to your Shopify store.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>Does CatalogSchema edit my theme code?</summary>
                         <div class="faq-answer">
-                            <p>No. JSON-LD schema is added through Shopify's native App Embed block, so your theme files are never modified. You can turn the App Embed off at any time from the Shopify theme editor.</p>
+                            <div class="faq-answer-inner">
+                                <p>No. JSON-LD schema is added through Shopify's native App Embed block, so your theme files are never modified. You can turn the App Embed off at any time from the Shopify theme editor.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>How are credits counted?</summary>
                         <div class="faq-answer">
-                            <p>1 operation = 1 credit. An operation is each individual billable action executed, such as one AI text elevation, one JSON-LD schema injection, or one SKU assignment. It is not a fixed per-product count, so one product or one bulk batch can use several credits depending on what runs.</p>
-                            <p>You get 10 free trial credits when you install. Additional credits are purchased in-app as packs (Starter Pack: $4.99 one-time) and never expire while the app is active.</p>
+                            <div class="faq-answer-inner">
+                                <p>1 operation = 1 credit. An operation is each individual billable action executed, such as one AI text elevation, one JSON-LD schema injection, or one SKU assignment. It is not a fixed per-product count, so one product or one bulk batch can use several credits depending on what runs.</p>
+                                <p>You get 10 free trial credits when you install. Additional credits are purchased in-app as packs (Starter Pack: $4.99 one-time) and never expire while the app is active.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>Which actions are free?</summary>
                         <div class="faq-answer">
-                            <p>Review &amp; Publish, Sync, View Details, and Off limits are always free and never deduct credits.</p>
+                            <div class="faq-answer-inner">
+                                <p>Review &amp; Publish, Sync, View Details, and Off limits are always free and never deduct credits.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>What does Off limits do?</summary>
                         <div class="faq-answer">
-                            <p>Marking a product Off limits excludes it from elevation, schema, and SKU operations, including bulk batches, until you remove the flag. Setting or clearing Off limits is free.</p>
+                            <div class="faq-answer-inner">
+                                <p>Marking a product Off limits excludes it from elevation, schema, and SKU operations, including bulk batches, until you remove the flag. Setting or clearing Off limits is free.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>How does this help AI shopping agents and search?</summary>
                         <div class="faq-answer">
-                            <p>Search engines and AI shopping agents read structured product data. Clean JSON-LD for price, availability, and SKUs, alongside descriptions you have reviewed, gives them accurate store facts to work from instead of guessing or relying on stale details.</p>
+                            <div class="faq-answer-inner">
+                                <p>Search engines and AI shopping agents read structured product data. Clean JSON-LD for price, availability, and SKUs, alongside descriptions you have reviewed, gives them accurate store facts to work from instead of guessing or relying on stale details.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>Will this guarantee rankings, rich results, or AI citations?</summary>
                         <div class="faq-answer">
-                            <p>No. Search engines and AI tools decide independently what to display, so CatalogSchema does not guarantee search rankings, rich-snippet display, AI citations, or traffic lift. However, structured data, clean catalog facts, and draft-reviewed AI elevation position your store to compete at a high level and support eligibility. See the <a href="#disclaimers">Disclaimers</a> for details.</p>
+                            <div class="faq-answer-inner">
+                                <p>No. Search engines and AI tools decide independently what to display, so CatalogSchema does not guarantee search rankings, rich-snippet display, AI citations, or traffic lift. However, structured data, clean catalog facts, and draft-reviewed AI elevation position your store to compete at a high level and support eligibility. See the <a href="#disclaimers">Disclaimers</a> for details.</p>
+                            </div>
                         </div>
                     </details>
                     <details>
                         <summary>What happens when I uninstall?</summary>
                         <div class="faq-answer">
-                            <p>Uninstalling revokes CatalogSchema's access to your store. After uninstall, and when Shopify sends the <code>shop/redact</code> request, we delete your stored store data, including usage and credit purchase records. See the <a href="#privacy">Privacy Policy</a> for details.</p>
+                            <div class="faq-answer-inner">
+                                <p>Uninstalling revokes CatalogSchema's access to your store. After uninstall, and when Shopify sends the <code>shop/redact</code> request, we delete your stored store data, including usage and credit purchase records. See the <a href="#privacy">Privacy Policy</a> for details.</p>
+                            </div>
                         </div>
                     </details>
                 </div>
@@ -1896,6 +1936,53 @@
                 }
             }
 
+            function prefersReducedMotion() {
+                return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            }
+
+            function setFaqExpanded(details, expand) {
+                var answer = details.querySelector('.faq-answer');
+                if (expand) {
+                    details.open = true;
+                    if (prefersReducedMotion()) {
+                        details.classList.add('is-expanded');
+                        return;
+                    }
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            details.classList.add('is-expanded');
+                        });
+                    });
+                    return;
+                }
+
+                if (prefersReducedMotion() || !details.classList.contains('is-expanded')) {
+                    details.classList.remove('is-expanded');
+                    details.open = false;
+                    return;
+                }
+
+                details.classList.remove('is-expanded');
+                var finished = false;
+                function finish() {
+                    if (finished) return;
+                    finished = true;
+                    details.open = false;
+                    if (answer) answer.removeEventListener('transitionend', onEnd);
+                }
+                function onEnd(event) {
+                    if (event.target !== answer) return;
+                    if (event.propertyName !== 'grid-template-rows') return;
+                    finish();
+                }
+                if (answer) answer.addEventListener('transitionend', onEnd);
+                setTimeout(finish, 450);
+            }
+
+            function toggleFaq(details) {
+                setFaqExpanded(details, !details.classList.contains('is-expanded'));
+            }
+
             document.addEventListener('click', function (event) {
                 if (event.target.closest('[data-modal-close]')) {
                     closeModal();
@@ -1906,8 +1993,10 @@
                 if (event.target.closest('a')) return;
                 var selection = window.getSelection && window.getSelection();
                 if (selection && selection.toString().length > 0) return;
-                if (event.target.closest('summary')) return;
-                faqItem.open = !faqItem.open;
+                if (event.target.closest('summary')) {
+                    event.preventDefault();
+                }
+                toggleFaq(faqItem);
             });
 
             document.addEventListener('keydown', function (event) {
