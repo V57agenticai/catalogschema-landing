@@ -31,6 +31,15 @@
             --status-green: #00FFA3;
             --status-green-soft: rgba(0, 255, 163, 0.08);
             --status-green-border: rgba(0, 255, 163, 0.32);
+            --status-blue: #38BDF8;
+            --status-blue-soft: rgba(56, 189, 248, 0.10);
+            --status-blue-border: rgba(56, 189, 248, 0.34);
+            --status-electric: #60A5FA;
+            --status-electric-soft: rgba(96, 165, 250, 0.10);
+            --status-electric-border: rgba(96, 165, 250, 0.36);
+            --status-rose: #FB7185;
+            --status-rose-soft: rgba(251, 113, 133, 0.10);
+            --status-rose-border: rgba(251, 113, 133, 0.28);
             --radius: 16px;
             --radius-sm: 10px;
             --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
@@ -386,6 +395,21 @@
             background: var(--status-green-soft);
             color: var(--status-green);
         }
+        .status-pill-blue {
+            border-color: var(--status-blue-border);
+            background: var(--status-blue-soft);
+            color: var(--status-blue);
+        }
+        .status-pill-electric {
+            border-color: var(--status-electric-border);
+            background: var(--status-electric-soft);
+            color: var(--status-electric);
+        }
+        .status-pill-rose {
+            border-color: var(--status-rose-border);
+            background: var(--status-rose-soft);
+            color: var(--status-rose);
+        }
 
         .status-track {
             display: flex;
@@ -451,6 +475,179 @@
         }
 
         .section-head p { margin-top: 16px; font-size: 1.0625rem; }
+
+        /* Showcase banners */
+        .showcase-banner {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            border-radius: calc(var(--radius) + 4px);
+            background:
+                radial-gradient(720px 280px at 100% 0%, rgba(96, 165, 250, 0.10), transparent 58%),
+                radial-gradient(640px 260px at 0% 100%, rgba(217, 70, 239, 0.07), transparent 55%),
+                linear-gradient(180deg, rgba(17, 26, 46, 0.96), rgba(11, 17, 32, 0.92));
+            box-shadow: var(--shadow);
+            padding: 28px;
+        }
+        .showcase-banner + .showcase-banner { margin-top: 28px; }
+        .showcase-banner-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .showcase-banner-head h3 {
+            font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+        .showcase-banner-head p {
+            max-width: 40rem;
+            margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.96875rem;
+        }
+        .showcase-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .compare-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 100%;
+            padding: 24px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            background: rgba(11, 17, 32, 0.55);
+        }
+        .compare-card-stale {
+            border-color: var(--status-amber-border);
+            background:
+                linear-gradient(180deg, rgba(245, 185, 66, 0.07), transparent 42%),
+                rgba(11, 17, 32, 0.62);
+            box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.08);
+        }
+        .compare-card-clean {
+            border-color: var(--status-electric-border);
+            background:
+                linear-gradient(180deg, rgba(0, 255, 163, 0.07), transparent 40%),
+                linear-gradient(180deg, rgba(96, 165, 250, 0.08), transparent 70%),
+                rgba(11, 17, 32, 0.62);
+            box-shadow: inset 0 0 0 1px rgba(0, 255, 163, 0.08);
+        }
+        .compare-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .compare-card h4 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .compare-list {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .compare-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.45;
+        }
+        .compare-list li strong { color: var(--text-primary); font-weight: 600; }
+        .compare-mark {
+            display: grid;
+            place-items: center;
+            flex: none;
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .compare-mark-warn {
+            border: 1px solid var(--status-amber-border);
+            background: var(--status-amber-soft);
+            color: var(--status-amber);
+        }
+        .compare-mark-ok {
+            border: 1px solid var(--status-green-border);
+            background: var(--status-green-soft);
+            color: var(--status-green);
+        }
+
+        .readiness-card {
+            border: 1px solid var(--status-blue-border);
+            border-radius: var(--radius);
+            background:
+                linear-gradient(135deg, rgba(56, 189, 248, 0.08), transparent 42%),
+                linear-gradient(225deg, rgba(217, 70, 239, 0.08), transparent 45%),
+                rgba(11, 17, 32, 0.62);
+            overflow: hidden;
+        }
+        .readiness-card-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(17, 26, 46, 0.55);
+        }
+        .readiness-card-head h4 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .readiness-rows {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .readiness-rows li {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) auto;
+            gap: 12px 16px;
+            align-items: center;
+            padding: 14px 22px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+        .readiness-rows li:last-child { border-bottom: 0; }
+        .readiness-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .readiness-detail { color: var(--text-muted); }
+        .showcase-note {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            line-height: 1.5;
+        }
 
         /* Cards */
         .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
@@ -846,7 +1043,10 @@
             .container { padding: 0 20px; }
             .hero { padding: 64px 0 64px; }
             .section { padding: 72px 0; }
-            .grid-3, .grid-4, .steps, .pricing-grid, .ops { grid-template-columns: minmax(0, 1fr); }
+            .grid-3, .grid-4, .steps, .pricing-grid, .ops, .compare-grid { grid-template-columns: minmax(0, 1fr); }
+            .readiness-rows li { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+            .showcase-banner { padding: 20px; }
+            .showcase-pills { justify-content: flex-start; }
             .card, .price-card { padding: 24px; }
             .operation-explainer { padding: 24px; }
             .ops-list li, .ops-panel-head { padding-left: 20px; padding-right: 20px; }
@@ -1074,6 +1274,140 @@
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5.5 5.6v5.1c0 4 2.7 7.1 6.5 8.8 3.8-1.7 6.5-4.8 6.5-8.8V5.6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.2 12 2 2 3.8-3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <p><strong>Nothing goes live without your approval.</strong> AI output stays a draft until you choose Review &amp; Publish, and products marked Off limits are excluded from elevation, schema, and SKU operations.</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- Showcase banners -->
+        <section class="section" id="showcase" aria-labelledby="showcase-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="kicker">Compare the difference</p>
+                    <h2 id="showcase-title">From stale guesses to clean, readable product facts.</h2>
+                    <p>Side-by-side snapshots of what search engines and AI shopping agents encounter when a store is messy versus when CatalogSchema keeps descriptions and structured facts clean.</p>
+                </div>
+
+                <article class="showcase-banner" aria-labelledby="banner-compare-title">
+                    <div class="showcase-banner-head">
+                        <div>
+                            <h3 id="banner-compare-title">Stale guess vs. clean CatalogSchema facts</h3>
+                            <p>Without clean structured data, tools fill gaps. With CatalogSchema, they read reviewed descriptions and accurate price, stock, and SKU facts.</p>
+                        </div>
+                        <div class="showcase-pills" aria-hidden="true">
+                            <span class="status-pill status-pill-amber">Stale</span>
+                            <span class="status-pill status-pill-rose">Guesswork</span>
+                            <span class="status-pill status-pill-green">Clean facts</span>
+                            <span class="status-pill status-pill-electric">JSON-LD</span>
+                        </div>
+                    </div>
+                    <div class="compare-grid">
+                        <div class="compare-card compare-card-stale">
+                            <div class="compare-card-head">
+                                <h4>Without clean structured facts</h4>
+                                <span class="status-pill status-pill-amber">Needs work</span>
+                            </div>
+                            <ul class="compare-list">
+                                <li>
+                                    <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
+                                    <span><strong>Messy or outdated descriptions</strong> leave shoppers and AI tools guessing what the product actually is.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
+                                    <span><strong>Missing price and stock signals</strong> force search engines and AI shopping agents to infer availability from stale pages.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
+                                    <span><strong>Incomplete or inconsistent SKUs</strong> break catalog hygiene and make matching harder across systems.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
+                                    <span><strong>Theme edits or migrations</strong> become the default path to add structure, adding risk and downtime.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="compare-card compare-card-clean">
+                            <div class="compare-card-head">
+                                <h4>With CatalogSchema</h4>
+                                <span class="status-pill status-pill-green">Optimized</span>
+                            </div>
+                            <ul class="compare-list">
+                                <li>
+                                    <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
+                                    <span><strong>Draft-first AI text elevation</strong> creates zero-fluff copy up to a 250-word ceiling, held for <strong>Review &amp; Publish</strong> before anything goes live.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
+                                    <span><strong>Clean price &amp; stock JSON-LD</strong> publishes accurate offer facts so tools read your store instead of guessing.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
+                                    <span><strong>SKU assignment</strong> and <strong>product media detection</strong> keep catalog fields consistent and ready for structured output.</span>
+                                </li>
+                                <li>
+                                    <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
+                                    <span><strong>Zero theme-code changes</strong>, <strong>zero site slowdown</strong>, and <strong>zero migration</strong>: App Embed only, turn off anytime.</span>
+                                </li>
+                            </ul>
+                            <div class="card-meta">
+                                <span class="status-pill status-pill-electric">App Embed</span>
+                                <span class="status-pill status-pill-blue">Price &amp; stock</span>
+                                <span class="status-pill status-pill-fuchsia">Review &amp; Publish free</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="showcase-banner" aria-labelledby="banner-readiness-title">
+                    <div class="showcase-banner-head">
+                        <div>
+                            <h3 id="banner-readiness-title">How AI &amp; search read your store</h3>
+                            <p>A crisp readiness snapshot of the signals CatalogSchema helps keep clear: price, availability, SKUs, media, and merchant-approved drafts.</p>
+                        </div>
+                        <div class="showcase-pills" aria-hidden="true">
+                            <span class="status-pill status-pill-blue">Search read</span>
+                            <span class="status-pill status-pill-electric">AI agents</span>
+                            <span class="status-pill status-pill-fuchsia">Review state</span>
+                        </div>
+                    </div>
+                    <div class="readiness-card">
+                        <div class="readiness-card-head">
+                            <h4>Parsed catalog &amp; store readiness</h4>
+                            <span class="status-pill status-pill-electric">Store signals</span>
+                        </div>
+                        <ul class="readiness-rows">
+                            <li>
+                                <span class="readiness-label">Price</span>
+                                <span class="readiness-detail">Offer price published as structured JSON-LD</span>
+                                <span class="status-pill status-pill-green">Ready</span>
+                            </li>
+                            <li>
+                                <span class="readiness-label">Stock / Availability</span>
+                                <span class="readiness-detail">In-stock and out-of-stock states kept current</span>
+                                <span class="status-pill status-pill-blue">Detected</span>
+                            </li>
+                            <li>
+                                <span class="readiness-label">SKUs</span>
+                                <span class="readiness-detail">Assigned and included in structured product facts</span>
+                                <span class="status-pill status-pill-electric">Assigned</span>
+                            </li>
+                            <li>
+                                <span class="readiness-label">Media Detected</span>
+                                <span class="readiness-detail">Product media referenced for a complete catalog read</span>
+                                <span class="status-pill status-pill-blue">Detected</span>
+                            </li>
+                            <li>
+                                <span class="readiness-label">Draft Ready</span>
+                                <span class="readiness-detail">AI elevation held for Review &amp; Publish (always free)</span>
+                                <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
+                            </li>
+                            <li>
+                                <span class="readiness-label">Zero Migration</span>
+                                <span class="readiness-detail">App Embed only &middot; no theme-code edits, no site slowdown</span>
+                                <span class="status-pill status-pill-green">Zero migration</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="showcase-note">Structured data for price, availability, and SKUs supports clarity and eligibility. It does not guarantee search rankings, rich-snippet display, AI citations, or traffic lift. 1 operation = 1 credit for each billable action executed; Review &amp; Publish is free; credits never expire while the app is active.</p>
+                </article>
             </div>
         </section>
 
