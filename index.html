@@ -656,8 +656,8 @@
         .card {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            padding: 28px;
+            gap: 12px;
+            padding: 26px;
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius);
             background: var(--bg-surface);
@@ -665,29 +665,71 @@
         }
         .card:hover { border-color: var(--border-accent); }
 
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .card-copy { display: grid; gap: 6px; min-width: 0; }
+
         .card-icon {
             display: grid;
             place-items: center;
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border: 1px solid var(--border-accent);
             border-radius: 12px;
             background: var(--accent-soft);
             color: var(--accent);
+            flex: none;
         }
         .card-icon svg { width: 22px; height: 22px; }
 
-        .card h3 { font-size: 1.1875rem; font-weight: 700; }
-        .card .card-sub { margin-top: -6px; color: var(--accent); font-size: 0.8125rem; font-weight: 600; }
-        .card p { font-size: 0.96875rem; }
+        .card h3 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; }
+        .card .card-sub { color: var(--accent); font-size: 0.8125rem; font-weight: 600; }
+        .card p { font-size: 0.9375rem; line-height: 1.5; }
 
         .card-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-top: auto;
-            padding-top: 6px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-subtle);
         }
+
+        .value-rail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 28px;
+        }
+        .value-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 999px;
+            background: rgba(17, 26, 46, 0.72);
+            color: var(--text-primary);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .value-chip::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex: none;
+        }
+        .value-chip-amber::before { background: var(--status-amber); }
+        .value-chip-fuchsia::before { background: var(--status-fuchsia); }
+        .value-chip-blue::before { background: var(--status-blue); }
+        .value-chip-electric::before { background: var(--status-electric); }
 
         .check-list {
             display: grid;
@@ -1092,15 +1134,23 @@
         <section class="hero" id="top">
             <div class="container hero-grid">
                 <div>
-                    <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Shopify App &middot; Structured catalog data</span>
+                    <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Shopify App &middot; High-impact catalog facts</span>
                     <h1>Product data that search engines and <span class="accent-text">AI shopping agents</span> can read accurately.</h1>
-                    <p class="lead">CatalogSchema turns raw specs into reviewed, conversion-ready product descriptions and publishes clean price, availability, and SKU facts as JSON-LD, so search tools and AI shopping agents work from your real store data instead of guessing or relying on stale details.</p>
+                    <p class="lead">Draft-first AI elevation (up to 250 words) held for Review &amp; Publish. Zero-code price, availability, and SKU JSON-LD. SKU assignment and media detection—with zero theme-code changes, zero site slowdown, and zero migration.</p>
                     <div class="hero-actions">
                         <a class="btn btn-primary btn-lg" href="#">
                             Install on Shopify
                             <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </a>
                         <a class="btn btn-secondary btn-lg" href="#how-it-works">See How It Works</a>
+                    </div>
+                    <div class="value-rail" aria-label="High-impact essentials">
+                        <span class="value-chip value-chip-amber">Draft ≤ 250 words</span>
+                        <span class="value-chip value-chip-fuchsia">Review &amp; Publish free</span>
+                        <span class="value-chip value-chip-blue">Price · Stock · SKUs</span>
+                        <span class="value-chip value-chip-electric">Media detected</span>
+                        <span class="value-chip">Zero theme edits</span>
+                        <span class="value-chip">Zero migration</span>
                     </div>
                     <ul class="trust-list" aria-label="Highlights">
                         <li class="badge">
@@ -1149,7 +1199,7 @@
 <span class="tk-punc">}</span></code></pre>
                     <figcaption class="code-card-footer">
                         <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10.5 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Published through a Shopify App Embed block &middot; no theme code edits
+                        App Embed JSON-LD &middot; zero theme edits &middot; zero migration
                     </figcaption>
                 </figure>
             </div>
@@ -1160,24 +1210,28 @@
             <div class="container">
                 <div class="section-head">
                     <p class="kicker">Capabilities</p>
-                    <h2 id="capabilities-title">Clean catalog facts, controlled by you.</h2>
-                    <p>Three focused tools that keep your product data accurate for shoppers, search engines, and AI shopping agents, with nothing published until you approve it.</p>
+                    <h2 id="capabilities-title">High-impact catalog essentials.</h2>
+                    <p>No fluff. Draft, structure, and protect the facts that matter—then publish only what you approve.</p>
                 </div>
                 <div class="grid-3">
                     <article class="card">
-                        <div class="card-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m14 7.5 3 3" stroke="currentColor" stroke-width="1.8"/></svg>
+                        <div class="card-top">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m14 7.5 3 3" stroke="currentColor" stroke-width="1.8"/></svg>
+                            </div>
+                            <span class="status-pill status-pill-amber">Draft</span>
                         </div>
-                        <h3>AI Text Elevation</h3>
-                        <p class="card-sub">Draft-first &middot; up to 250 words</p>
-                        <p>Generates structured, conversion-ready product descriptions from your existing specs, tags, and notes. Every result is held as a draft until you explicitly approve it with Review &amp; Publish.</p>
+                        <div class="card-copy">
+                            <h3>AI Text Elevation</h3>
+                            <p class="card-sub">Draft-first &middot; ≤ 250 words</p>
+                        </div>
+                        <p>Zero-fluff product copy from your specs and notes. Held as a draft until you approve with Review &amp; Publish.</p>
                         <ul class="check-list">
-                            <li>Drafts never go live automatically</li>
-                            <li>250-word ceiling keeps copy focused</li>
-                            <li>Edit or discard before publishing</li>
+                            <li>Never auto-publishes</li>
+                            <li>250-word ceiling</li>
+                            <li>Edit or discard first</li>
                         </ul>
                         <div class="card-meta">
-                            <span class="status-pill status-pill-amber">Draft</span>
                             <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
                             <span class="tag tag-accent">1 credit per elevation</span>
                             <span class="tag">Review &amp; Publish: free</span>
@@ -1185,37 +1239,46 @@
                     </article>
 
                     <article class="card">
-                        <div class="card-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 4.5C6.5 4.5 5.5 5.5 5.5 7.5v2.2c0 1.2-.7 2-2 2 1.3 0 2 .8 2 2v2.2c0 2 1 3 3 3M15.5 4.5c2 0 3 1 3 3v2.2c0 1.2.7 2 2 2-1.3 0-2 .8-2 2v2.2c0 2-1 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <div class="card-top">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 4.5C6.5 4.5 5.5 5.5 5.5 7.5v2.2c0 1.2-.7 2-2 2 1.3 0 2 .8 2 2v2.2c0 2 1 3 3 3M15.5 4.5c2 0 3 1 3 3v2.2c0 1.2.7 2 2 2-1.3 0-2 .8-2 2v2.2c0 2-1 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <span class="status-pill status-pill-green">Optimized</span>
                         </div>
-                        <h3>Zero-Code JSON-LD Schema</h3>
-                        <p class="card-sub">For search &amp; AI shopping agents</p>
-                        <p>Injects structured Product and Offer facts (price, stock and availability, and SKUs) through a Shopify App Embed block, so search engines and AI shopping agents read accurate store data instead of guessing or relying on stale details.</p>
+                        <div class="card-copy">
+                            <h3>Zero-Code JSON-LD Schema</h3>
+                            <p class="card-sub">Price · Stock · SKUs</p>
+                        </div>
+                        <p>Inject accurate Product and Offer facts through App Embed so search and AI shopping agents read your store—not stale guesses.</p>
                         <ul class="check-list">
-                            <li>No theme code edits</li>
-                            <li>Turn the App Embed off anytime</li>
-                            <li>Built from your catalog fields</li>
+                            <li>Price &amp; availability JSON-LD</li>
+                            <li>SKU in structured facts</li>
+                            <li>No theme-code edits</li>
                         </ul>
                         <div class="card-meta">
-                            <span class="status-pill status-pill-green">Optimized</span>
+                            <span class="status-pill status-pill-electric">App Embed</span>
                             <span class="tag tag-accent">1 credit per injection</span>
                         </div>
                     </article>
 
                     <article class="card">
-                        <div class="card-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        <div class="card-top">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            </div>
+                            <span class="status-pill status-pill-green">Ready</span>
                         </div>
-                        <h3>Controlled Catalog Hygiene</h3>
-                        <p class="card-sub">Batch-friendly &amp; safeguarded</p>
-                        <p>Process products in batches with SKU assignment, <strong>Off limits</strong> protection for products you never want changed, and single-tab execution safeguards that stop the same job from running twice.</p>
+                        <div class="card-copy">
+                            <h3>Controlled Catalog Hygiene</h3>
+                            <p class="card-sub">SKU · Media · Safeguards</p>
+                        </div>
+                        <p>Batch SKU assignment, product media detection, Off limits protection, and single-tab execution—so jobs stay controlled.</p>
                         <ul class="check-list">
                             <li>SKU assignment in batches</li>
-                            <li>Off limits products are skipped</li>
-                            <li>Single-tab execution safeguard</li>
+                            <li>Media detection included</li>
+                            <li>Off limits &amp; single-tab lock</li>
                         </ul>
                         <div class="card-meta">
-                            <span class="status-pill status-pill-green">Ready</span>
                             <span class="tag tag-accent">1 credit per SKU assignment</span>
                             <span class="tag">Off limits: free</span>
                         </div>
@@ -1229,50 +1292,50 @@
             <div class="container">
                 <div class="section-head">
                     <p class="kicker">How It Works</p>
-                    <h2 id="how-title">Draft-first and controlled.</h2>
-                    <p>Every change moves through a clear, reviewable workflow. You decide what runs, what gets published, and what stays untouched.</p>
+                    <h2 id="how-title">Draft-first. Approve. Structure.</h2>
+                    <p>Four crisp steps. You control what runs, what publishes, and what stays Off limits.</p>
                 </div>
                 <ol class="steps">
                     <li class="card">
-                        <span class="step-num" aria-hidden="true">1</span>
-                        <h3>Sync your catalog</h3>
-                        <p>Bring your products into CatalogSchema and use View Details to see each product's current fields.</p>
-                        <div class="card-meta">
+                        <div class="card-top">
+                            <span class="step-num" aria-hidden="true">1</span>
                             <span class="status-pill status-pill-amber">Needs work</span>
-                            <span class="tag">Free</span>
                         </div>
+                        <h3>Sync your catalog</h3>
+                        <p>Pull products in. Use View Details to see the fields you will elevate or structure.</p>
+                        <div class="card-meta"><span class="tag">Free</span></div>
                     </li>
                     <li class="card">
-                        <span class="step-num" aria-hidden="true">2</span>
-                        <h3>Elevate into drafts</h3>
-                        <p>Run AI Text Elevation on single products or a batch. Each result is saved as a draft of up to 250 words.</p>
-                        <div class="card-meta">
+                        <div class="card-top">
+                            <span class="step-num" aria-hidden="true">2</span>
                             <span class="status-pill status-pill-amber">Draft</span>
-                            <span class="tag tag-accent">1 credit per elevation</span>
                         </div>
+                        <h3>Elevate into drafts</h3>
+                        <p>Run AI Text Elevation on one product or a batch. Cap: 250 words. Always held as a draft.</p>
+                        <div class="card-meta"><span class="tag tag-accent">1 credit per elevation</span></div>
                     </li>
                     <li class="card">
-                        <span class="step-num" aria-hidden="true">3</span>
-                        <h3>Review &amp; Publish</h3>
-                        <p>Read, edit, and approve each draft. Only the copy you approve is published to your Shopify store.</p>
-                        <div class="card-meta">
+                        <div class="card-top">
+                            <span class="step-num" aria-hidden="true">3</span>
                             <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
-                            <span class="tag">Free</span>
                         </div>
+                        <h3>Review &amp; Publish</h3>
+                        <p>Read, edit, approve. Only approved copy goes live on Shopify.</p>
+                        <div class="card-meta"><span class="tag">Free</span></div>
                     </li>
                     <li class="card">
-                        <span class="step-num" aria-hidden="true">4</span>
-                        <h3>Structure &amp; assign</h3>
-                        <p>Inject JSON-LD schema and assign SKUs. Products marked Off limits are excluded from these operations.</p>
-                        <div class="card-meta">
+                        <div class="card-top">
+                            <span class="step-num" aria-hidden="true">4</span>
                             <span class="status-pill status-pill-green">Optimized</span>
-                            <span class="tag tag-accent">1 credit per operation</span>
                         </div>
+                        <h3>Structure &amp; assign</h3>
+                        <p>Inject price/stock/SKU JSON-LD and assign SKUs. Off limits products are skipped.</p>
+                        <div class="card-meta"><span class="tag tag-accent">1 credit per operation</span></div>
                     </li>
                 </ol>
                 <div class="callout">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5.5 5.6v5.1c0 4 2.7 7.1 6.5 8.8 3.8-1.7 6.5-4.8 6.5-8.8V5.6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.2 12 2 2 3.8-3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <p><strong>Nothing goes live without your approval.</strong> AI output stays a draft until you choose Review &amp; Publish, and products marked Off limits are excluded from elevation, schema, and SKU operations.</p>
+                    <p><strong>Nothing goes live without your approval.</strong> Drafts stay drafts until Review &amp; Publish. Off limits products stay out of elevation, schema, and SKU runs.</p>
                 </div>
             </div>
         </section>
@@ -1282,8 +1345,8 @@
             <div class="container">
                 <div class="section-head">
                     <p class="kicker">Compare the difference</p>
-                    <h2 id="showcase-title">From stale guesses to clean, readable product facts.</h2>
-                    <p>Side-by-side snapshots of what search engines and AI shopping agents encounter when a store is messy versus when CatalogSchema keeps descriptions and structured facts clean.</p>
+                    <h2 id="showcase-title">Stale guesses vs. clean catalog facts.</h2>
+                    <p>What AI and search encounter without structure—and what CatalogSchema makes readable: reviewed copy plus price, stock, and SKUs.</p>
                 </div>
 
                 <article class="showcase-banner" aria-labelledby="banner-compare-title">
