@@ -22,6 +22,15 @@
             --accent-hover: #00E08F;
             --accent-ink: #03140D;
             --accent-soft: rgba(0, 255, 163, 0.07);
+            --status-amber: #F5B942;
+            --status-amber-soft: rgba(245, 185, 66, 0.10);
+            --status-amber-border: rgba(245, 185, 66, 0.32);
+            --status-fuchsia: #D946EF;
+            --status-fuchsia-soft: rgba(217, 70, 239, 0.10);
+            --status-fuchsia-border: rgba(217, 70, 239, 0.30);
+            --status-green: #00FFA3;
+            --status-green-soft: rgba(0, 255, 163, 0.08);
+            --status-green-border: rgba(0, 255, 163, 0.32);
             --radius: 16px;
             --radius-sm: 10px;
             --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
@@ -339,14 +348,61 @@
         .file-name { font-family: var(--font-mono); color: var(--text-secondary); }
 
         .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             padding: 3px 10px;
-            border: 1px solid var(--border-accent);
+            border: 1px solid var(--border-subtle);
             border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent);
+            background: rgba(148, 163, 184, 0.08);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-weight: 600;
+            letter-spacing: 0.01em;
             white-space: nowrap;
+            line-height: 1.35;
+        }
+        .status-pill::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.9;
+            flex: none;
+        }
+        .status-pill-amber {
+            border-color: var(--status-amber-border);
+            background: var(--status-amber-soft);
+            color: var(--status-amber);
+        }
+        .status-pill-fuchsia {
+            border-color: var(--status-fuchsia-border);
+            background: var(--status-fuchsia-soft);
+            color: var(--status-fuchsia);
+        }
+        .status-pill-green {
+            border-color: var(--status-green-border);
+            background: var(--status-green-soft);
+            color: var(--status-green);
+        }
+
+        .status-track {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(11, 17, 32, 0.35);
+        }
+        .status-track-label {
+            margin-right: 4px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
 
         .code-card pre {
@@ -870,7 +926,13 @@
                     <div class="code-card-header">
                         <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
                         <span class="file-name">product.jsonld &middot; example</span>
-                        <span class="status-pill">Draft approved</span>
+                        <span class="status-pill status-pill-green">Optimized</span>
+                    </div>
+                    <div class="status-track" aria-label="CatalogSchema workflow states">
+                        <span class="status-track-label">States</span>
+                        <span class="status-pill status-pill-amber">Draft</span>
+                        <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
+                        <span class="status-pill status-pill-green">Optimized</span>
                     </div>
 <pre><code><span class="tk-punc">{</span>
   <span class="tk-key">"@context"</span><span class="tk-punc">:</span> <span class="tk-str">"https://schema.org"</span><span class="tk-punc">,</span>
@@ -915,6 +977,8 @@
                             <li>Edit or discard before publishing</li>
                         </ul>
                         <div class="card-meta">
+                            <span class="status-pill status-pill-amber">Draft</span>
+                            <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
                             <span class="tag tag-accent">1 credit per elevation</span>
                             <span class="tag">Review &amp; Publish: free</span>
                         </div>
@@ -933,6 +997,7 @@
                             <li>Built from your catalog fields</li>
                         </ul>
                         <div class="card-meta">
+                            <span class="status-pill status-pill-green">Optimized</span>
                             <span class="tag tag-accent">1 credit per injection</span>
                         </div>
                     </article>
@@ -950,6 +1015,7 @@
                             <li>Single-tab execution safeguard</li>
                         </ul>
                         <div class="card-meta">
+                            <span class="status-pill status-pill-green">Ready</span>
                             <span class="tag tag-accent">1 credit per SKU assignment</span>
                             <span class="tag">Off limits: free</span>
                         </div>
@@ -971,25 +1037,37 @@
                         <span class="step-num" aria-hidden="true">1</span>
                         <h3>Sync your catalog</h3>
                         <p>Bring your products into CatalogSchema and use View Details to see each product's current fields.</p>
-                        <div class="card-meta"><span class="tag">Free</span></div>
+                        <div class="card-meta">
+                            <span class="status-pill status-pill-amber">Needs work</span>
+                            <span class="tag">Free</span>
+                        </div>
                     </li>
                     <li class="card">
                         <span class="step-num" aria-hidden="true">2</span>
                         <h3>Elevate into drafts</h3>
                         <p>Run AI Text Elevation on single products or a batch. Each result is saved as a draft of up to 250 words.</p>
-                        <div class="card-meta"><span class="tag tag-accent">1 credit per elevation</span></div>
+                        <div class="card-meta">
+                            <span class="status-pill status-pill-amber">Draft</span>
+                            <span class="tag tag-accent">1 credit per elevation</span>
+                        </div>
                     </li>
                     <li class="card">
                         <span class="step-num" aria-hidden="true">3</span>
                         <h3>Review &amp; Publish</h3>
                         <p>Read, edit, and approve each draft. Only the copy you approve is published to your Shopify store.</p>
-                        <div class="card-meta"><span class="tag">Free</span></div>
+                        <div class="card-meta">
+                            <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
+                            <span class="tag">Free</span>
+                        </div>
                     </li>
                     <li class="card">
                         <span class="step-num" aria-hidden="true">4</span>
                         <h3>Structure &amp; assign</h3>
                         <p>Inject JSON-LD schema and assign SKUs. Products marked Off limits are excluded from these operations.</p>
-                        <div class="card-meta"><span class="tag tag-accent">1 credit per operation</span></div>
+                        <div class="card-meta">
+                            <span class="status-pill status-pill-green">Optimized</span>
+                            <span class="tag tag-accent">1 credit per operation</span>
+                        </div>
                     </li>
                 </ol>
                 <div class="callout">
