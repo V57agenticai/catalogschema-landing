@@ -5,44 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CatalogSchema | Clear Product Facts &amp; Draft Descriptions for Shopify</title>
     <meta name="description" content="More shoppers ask AI shopping tools—not only traditional search. CatalogSchema helps Shopify merchants stay clear and easy to read: draft product descriptions (up to 250 words) you approve with Review &amp; Publish, plus clean price, stock, and SKU facts—without theme edits, site slowdown, or migration.">
-    <meta name="theme-color" content="#0B1120">
+    <meta name="theme-color" content="#FFFFFF">
     <link rel="icon" type="image/gif" href="favicon.gif" />
     <link rel="alternate icon" type="image/x-icon" href="favicon.ico" />
     <style>
         :root {
-            --bg-canvas: #0B1120;
-            --bg-surface: #111A2E;
-            --bg-elevated: #1E293B;
-            --border-subtle: rgba(148, 163, 184, 0.16);
-            --border-accent: rgba(0, 255, 163, 0.38);
-            --text-primary: #F8FAFC;
-            --text-secondary: #CBD5E1;
-            --text-muted: #94A3B8;
-            --accent: #00FFA3;
-            --accent-hover: #00E08F;
-            --accent-ink: #03140D;
-            --accent-soft: rgba(0, 255, 163, 0.07);
-            --status-amber: #F5B942;
-            --status-amber-soft: rgba(245, 185, 66, 0.10);
-            --status-amber-border: rgba(245, 185, 66, 0.32);
-            --status-fuchsia: #D946EF;
-            --status-fuchsia-soft: rgba(217, 70, 239, 0.10);
-            --status-fuchsia-border: rgba(217, 70, 239, 0.30);
-            --status-green: #00FFA3;
-            --status-green-soft: rgba(0, 255, 163, 0.08);
-            --status-green-border: rgba(0, 255, 163, 0.32);
-            --status-blue: #38BDF8;
-            --status-blue-soft: rgba(56, 189, 248, 0.10);
-            --status-blue-border: rgba(56, 189, 248, 0.34);
-            --status-electric: #60A5FA;
-            --status-electric-soft: rgba(96, 165, 250, 0.10);
-            --status-electric-border: rgba(96, 165, 250, 0.36);
-            --status-rose: #FB7185;
-            --status-rose-soft: rgba(251, 113, 133, 0.10);
-            --status-rose-border: rgba(251, 113, 133, 0.28);
+            --bg-canvas: #F7F9FC;
+            --bg-surface: #FFFFFF;
+            --bg-elevated: #F1F5F9;
+            --border-subtle: rgba(15, 23, 42, 0.10);
+            --border-accent: rgba(5, 150, 105, 0.38);
+            --text-primary: #0F172A;
+            --text-secondary: #334155;
+            --text-muted: #64748B;
+            --accent: #059669;
+            --accent-hover: #047857;
+            --accent-ink: #FFFFFF;
+            --accent-soft: rgba(5, 150, 105, 0.08);
+            --status-amber: #B45309;
+            --status-amber-soft: rgba(180, 83, 9, 0.08);
+            --status-amber-border: rgba(180, 83, 9, 0.28);
+            --status-fuchsia: #A21CAF;
+            --status-fuchsia-soft: rgba(162, 28, 175, 0.07);
+            --status-fuchsia-border: rgba(162, 28, 175, 0.24);
+            --status-green: #059669;
+            --status-green-soft: rgba(5, 150, 105, 0.08);
+            --status-green-border: rgba(5, 150, 105, 0.28);
+            --status-blue: #0284C7;
+            --status-blue-soft: rgba(2, 132, 199, 0.08);
+            --status-blue-border: rgba(2, 132, 199, 0.28);
+            --status-electric: #2563EB;
+            --status-electric-soft: rgba(37, 99, 235, 0.08);
+            --status-electric-border: rgba(37, 99, 235, 0.28);
+            --status-rose: #E11D48;
+            --status-rose-soft: rgba(225, 29, 72, 0.07);
+            --status-rose-border: rgba(225, 29, 72, 0.24);
             --radius: 16px;
             --radius-sm: 10px;
-            --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
+            --shadow: 0 20px 48px -28px rgba(15, 23, 42, 0.22);
             --max-width: 1180px;
             --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -62,8 +62,8 @@
             min-height: 100vh;
             background-color: var(--bg-canvas);
             background-image:
-                radial-gradient(1100px 560px at 85% -12%, rgba(0, 255, 163, 0.09), transparent 62%),
-                radial-gradient(900px 520px at -12% 8%, rgba(56, 189, 248, 0.06), transparent 60%);
+                radial-gradient(1100px 560px at 85% -12%, rgba(5, 150, 105, 0.07), transparent 62%),
+                radial-gradient(900px 520px at -12% 8%, rgba(37, 99, 235, 0.05), transparent 60%);
             background-repeat: no-repeat;
             color: var(--text-secondary);
             font-family: var(--font-sans);
@@ -131,7 +131,7 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(11, 17, 32, 0.84);
+            background: rgba(255, 255, 255, 0.88);
             -webkit-backdrop-filter: saturate(140%) blur(14px);
             backdrop-filter: saturate(140%) blur(14px);
             border-bottom: 1px solid var(--border-subtle);
@@ -185,7 +185,7 @@
         }
         .nav-links a:hover {
             color: var(--text-primary);
-            background: rgba(148, 163, 184, 0.09);
+            background: rgba(15, 23, 42, 0.04);
         }
 
         /* Buttons */
@@ -210,7 +210,7 @@
         .btn-primary {
             background: var(--accent);
             color: var(--accent-ink);
-            box-shadow: 0 10px 30px -12px rgba(0, 255, 163, 0.55);
+            box-shadow: 0 10px 28px -14px rgba(5, 150, 105, 0.55);
         }
         .btn-primary:hover {
             background: var(--accent-hover);
@@ -219,7 +219,7 @@
         }
 
         .btn-secondary {
-            background: rgba(148, 163, 184, 0.04);
+            background: var(--bg-surface);
             border-color: var(--border-subtle);
             color: var(--text-primary);
         }
@@ -252,7 +252,7 @@
             height: 7px;
             border-radius: 50%;
             background: var(--accent);
-            box-shadow: 0 0 0 4px rgba(0, 255, 163, 0.18);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.16);
         }
 
         .badge {
@@ -333,7 +333,7 @@
             overflow: hidden;
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius);
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.55), rgba(17, 26, 46, 0.9));
+            background: linear-gradient(180deg, #FFFFFF, #F8FAFC);
             box-shadow: var(--shadow);
         }
 
@@ -352,7 +352,7 @@
         .code-card-footer svg { width: 16px; height: 16px; color: var(--accent); flex: none; }
 
         .window-dots { display: inline-flex; gap: 6px; }
-        .window-dots span { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
+        .window-dots span { width: 10px; height: 10px; border-radius: 50%; background: #CBD5E1; }
 
         .file-name { font-family: var(--font-mono); color: var(--text-secondary); }
 
@@ -363,7 +363,7 @@
             padding: 3px 10px;
             border: 1px solid var(--border-subtle);
             border-radius: 999px;
-            background: rgba(148, 163, 184, 0.08);
+            background: var(--bg-elevated);
             color: var(--text-secondary);
             font-size: 0.75rem;
             font-weight: 600;
@@ -418,7 +418,7 @@
             gap: 8px;
             padding: 12px 18px;
             border-bottom: 1px solid var(--border-subtle);
-            background: rgba(11, 17, 32, 0.35);
+            background: rgba(241, 245, 249, 0.85);
         }
         .status-track-label {
             margin-right: 4px;
@@ -446,7 +446,7 @@
             font-size: inherit;
             white-space: inherit;
         }
-        .tk-key { color: #7DD3FC; }
+        .tk-key { color: #0369A1; }
         .tk-str { color: var(--accent); }
         .tk-punc { color: var(--text-muted); }
 
@@ -483,9 +483,9 @@
             border: 1px solid var(--border-subtle);
             border-radius: calc(var(--radius) + 4px);
             background:
-                radial-gradient(720px 280px at 100% 0%, rgba(96, 165, 250, 0.10), transparent 58%),
-                radial-gradient(640px 260px at 0% 100%, rgba(217, 70, 239, 0.07), transparent 55%),
-                linear-gradient(180deg, rgba(17, 26, 46, 0.96), rgba(11, 17, 32, 0.92));
+                radial-gradient(720px 280px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 58%),
+                radial-gradient(640px 260px at 0% 100%, rgba(5, 150, 105, 0.05), transparent 55%),
+                linear-gradient(180deg, #FFFFFF, #F8FAFC);
             box-shadow: var(--shadow);
             padding: 28px;
         }
@@ -530,22 +530,22 @@
             padding: 24px;
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius);
-            background: rgba(11, 17, 32, 0.55);
+            background: var(--bg-surface);
         }
         .compare-card-incomplete {
             border-color: var(--status-amber-border);
             background:
-                linear-gradient(180deg, rgba(245, 185, 66, 0.07), transparent 42%),
-                rgba(11, 17, 32, 0.62);
-            box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.08);
+                linear-gradient(180deg, rgba(180, 83, 9, 0.06), transparent 42%),
+                #FFFFFF;
+            box-shadow: inset 0 0 0 1px rgba(225, 29, 72, 0.06);
         }
         .compare-card-clean {
             border-color: var(--status-electric-border);
             background:
-                linear-gradient(180deg, rgba(0, 255, 163, 0.07), transparent 40%),
-                linear-gradient(180deg, rgba(96, 165, 250, 0.08), transparent 70%),
-                rgba(11, 17, 32, 0.62);
-            box-shadow: inset 0 0 0 1px rgba(0, 255, 163, 0.08);
+                linear-gradient(180deg, rgba(5, 150, 105, 0.06), transparent 40%),
+                linear-gradient(180deg, rgba(37, 99, 235, 0.05), transparent 70%),
+                #FFFFFF;
+            box-shadow: inset 0 0 0 1px rgba(5, 150, 105, 0.08);
         }
         .compare-card-head {
             display: flex;
@@ -601,9 +601,9 @@
             border: 1px solid var(--status-blue-border);
             border-radius: var(--radius);
             background:
-                linear-gradient(135deg, rgba(56, 189, 248, 0.08), transparent 42%),
-                linear-gradient(225deg, rgba(217, 70, 239, 0.08), transparent 45%),
-                rgba(11, 17, 32, 0.62);
+                linear-gradient(135deg, rgba(2, 132, 199, 0.05), transparent 42%),
+                linear-gradient(225deg, rgba(5, 150, 105, 0.04), transparent 45%),
+                #FFFFFF;
             overflow: hidden;
         }
         .readiness-card-head {
@@ -614,7 +614,7 @@
             gap: 12px;
             padding: 18px 22px;
             border-bottom: 1px solid var(--border-subtle);
-            background: rgba(17, 26, 46, 0.55);
+            background: rgba(241, 245, 249, 0.9);
         }
         .readiness-card-head h4 {
             font-size: 1.0625rem;
@@ -649,6 +649,74 @@
             line-height: 1.5;
         }
 
+        .shot-slot {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            margin: 0 0 20px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            background:
+                linear-gradient(135deg, rgba(5, 150, 105, 0.04), transparent 42%),
+                var(--bg-elevated);
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+        }
+        .shot-slot img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+        .shot-slot-placeholder {
+            display: grid;
+            gap: 6px;
+            justify-items: center;
+            padding: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            z-index: 1;
+        }
+        .shot-slot-placeholder span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px dashed rgba(15, 23, 42, 0.18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .shot-slot-placeholder small {
+            font-weight: 500;
+            letter-spacing: 0;
+            color: var(--text-muted);
+        }
+        .shot-slot:has(img) .shot-slot-placeholder { display: none; }
+        .showcase-flow {
+            display: grid;
+            gap: 20px;
+        }
+        @media (min-width: 900px) {
+            .showcase-flow-split {
+                grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+                align-items: stretch;
+            }
+            .showcase-flow-split .shot-slot {
+                margin-bottom: 0;
+                height: 100%;
+                min-height: 280px;
+                aspect-ratio: auto;
+            }
+        }
+
         /* Cards */
         .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
         .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
@@ -663,7 +731,10 @@
             background: var(--bg-surface);
             transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .card:hover { border-color: var(--border-accent); }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow);
+        }
 
         .card-top {
             display: flex;
@@ -712,11 +783,12 @@
             padding: 8px 12px;
             border: 1px solid var(--border-subtle);
             border-radius: 999px;
-            background: rgba(17, 26, 46, 0.72);
+            background: var(--bg-surface);
             color: var(--text-primary);
             font-size: 0.8125rem;
             font-weight: 600;
             line-height: 1.2;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
         }
         .value-chip::before {
             content: "";
@@ -783,7 +855,7 @@
             padding: 22px 24px;
             border: 1px solid var(--border-accent);
             border-radius: var(--radius);
-            background: linear-gradient(180deg, rgba(0, 255, 163, 0.07), rgba(0, 255, 163, 0.02));
+            background: linear-gradient(180deg, rgba(5, 150, 105, 0.08), rgba(5, 150, 105, 0.02));
         }
         .callout svg { width: 24px; height: 24px; color: var(--accent); flex: none; margin-top: 2px; }
         .callout strong { color: var(--text-primary); }
@@ -856,7 +928,7 @@
             gap: 12px;
             padding: 16px 24px;
             border-bottom: 1px solid var(--border-subtle);
-            background: rgba(30, 41, 59, 0.45);
+            background: var(--bg-elevated);
         }
         .ops-panel-head h3 { font-size: 1rem; }
 
@@ -899,7 +971,7 @@
         .site-footer {
             padding: 48px 0;
             border-top: 1px solid var(--border-subtle);
-            background: rgba(2, 6, 23, 0.45);
+            background: #FFFFFF;
         }
 
         .footer-grid {
@@ -947,7 +1019,7 @@
         .modal-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(2, 6, 23, 0.78);
+            background: rgba(15, 23, 42, 0.42);
             -webkit-backdrop-filter: blur(6px);
             backdrop-filter: blur(6px);
         }
@@ -963,7 +1035,7 @@
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
             background: var(--bg-surface);
-            box-shadow: 0 40px 120px -24px rgba(0, 0, 0, 0.85);
+            box-shadow: 0 32px 80px -20px rgba(15, 23, 42, 0.28);
             animation: modal-in 0.18s ease-out;
         }
         .modal-panel:focus { outline: none; }
@@ -1009,7 +1081,7 @@
             overflow-x: hidden;
             scrollbar-gutter: stable;
             scrollbar-width: thin;
-            scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+            scrollbar-color: rgba(100, 116, 139, 0.45) transparent;
             overscroll-behavior: contain;
             color: var(--text-secondary);
             font-size: 0.9375rem;
@@ -1021,13 +1093,13 @@
             background: transparent;
         }
         .modal-body::-webkit-scrollbar-thumb {
-            background-color: rgba(148, 163, 184, 0.28);
+            background-color: rgba(100, 116, 139, 0.32);
             border-radius: 999px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
         .modal-body::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(148, 163, 184, 0.45);
+            background-color: rgba(100, 116, 139, 0.5);
             border: 2px solid transparent;
             background-clip: padding-box;
         }
@@ -1057,7 +1129,7 @@
         .faq details {
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
-            background: rgba(11, 17, 32, 0.55);
+            background: var(--bg-elevated);
             transition: border-color 0.15s ease;
             cursor: pointer;
         }
@@ -1159,8 +1231,8 @@
             <a class="brand" href="#top" aria-label="CatalogSchema home">
                 <img class="brand-logo" src="logo.png" alt="CatalogSchema" onerror="this.hidden=true;this.nextElementSibling.hidden=false;" />
                 <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" hidden>
-                    <rect width="32" height="32" rx="8" fill="#00FFA3"/>
-                    <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#0B1120" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect width="32" height="32" rx="8" fill="#059669"/>
+                    <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span aria-hidden="true">CatalogSchema</span>
             </a>
@@ -1183,7 +1255,7 @@
                 <div>
                     <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Shopify App &middot; Clear product facts for AI shopping</span>
                     <h1>Don't disappear when shoppers ask <span class="accent-text">AI tools</span>.</h1>
-                    <p class="lead">More people shop by asking AI—not only searching the old way. If your product details are messy or missing, those tools may guess wrong or skip you. CatalogSchema helps quietly: clearer draft descriptions (up to 250 words) that only go live after you Review &amp; Publish, plus clean price, stock, and SKU facts search and AI can read—with SKU assignment and product media detection, and with zero theme-code changes, zero site slowdown, and zero migration.</p>
+                    <p class="lead">Messy or missing product details → AI tools guess wrong or skip you. CatalogSchema adds draft descriptions (≤ 250 words) you approve with Review &amp; Publish, plus clean price, stock, and SKU facts—with zero theme-code changes, zero site slowdown, and zero migration.</p>
                     <div class="hero-actions">
                         <a class="btn btn-primary btn-lg" href="#">
                             Install on Shopify
@@ -1257,8 +1329,8 @@
             <div class="container">
                 <div class="section-head">
                     <p class="kicker">Capabilities</p>
-                    <h2 id="capabilities-title">What CatalogSchema does—simply.</h2>
-                    <p>You stay in control. We help draft clearer product copy, add clean price/stock/SKU facts that search and AI can read, and tidy SKUs and media—then nothing goes live until you approve.</p>
+                    <h2 id="capabilities-title">Draft. Structure. Protect.</h2>
+                    <p>Three essentials. You approve what goes live.</p>
                 </div>
                 <div class="grid-3">
                     <article class="card">
@@ -1272,11 +1344,10 @@
                             <h3>AI Text Elevation</h3>
                             <p class="card-sub">Draft-first &middot; ≤ 250 words</p>
                         </div>
-                        <p>AI writes clear, no-fluff product copy from your existing specs and notes (up to 250 words). It stays a draft until you Review &amp; Publish—nothing auto-publishes to your store.</p>
                         <ul class="check-list">
+                            <li>Clear copy from your specs &amp; notes</li>
                             <li>Never auto-publishes</li>
-                            <li>250-word ceiling</li>
-                            <li>Edit or discard first</li>
+                            <li>Edit or discard before Review &amp; Publish</li>
                         </ul>
                         <div class="card-meta">
                             <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
@@ -1296,11 +1367,10 @@
                             <h3>Clean Product Facts (JSON-LD)</h3>
                             <p class="card-sub">Price · Stock · SKUs</p>
                         </div>
-                        <p>Adds accurate price, availability, and SKU details in a format search engines and AI shopping tools can read—through Shopify's App Embed. Your theme files stay untouched.</p>
                         <ul class="check-list">
                             <li>Price &amp; availability JSON-LD</li>
                             <li>SKU in product facts</li>
-                            <li>No theme-code edits</li>
+                            <li>App Embed · no theme-code edits</li>
                         </ul>
                         <div class="card-meta">
                             <span class="status-pill status-pill-electric">App Embed</span>
@@ -1319,10 +1389,9 @@
                             <h3>SKUs, Media &amp; Safety Rails</h3>
                             <p class="card-sub">SKU · Media · Safeguards</p>
                         </div>
-                        <p>Assign SKUs in batches, detect product media, and mark products Off limits so they are skipped. Jobs run in one tab so everything stays under your control.</p>
                         <ul class="check-list">
                             <li>SKU assignment in batches</li>
-                            <li>Media detection included</li>
+                            <li>Product media detection</li>
                             <li>Off limits &amp; single-tab lock</li>
                         </ul>
                         <div class="card-meta">
@@ -1339,8 +1408,8 @@
             <div class="container">
                 <div class="section-head">
                     <p class="kicker">How It Works</p>
-                    <h2 id="how-title">Four simple steps. You're in control.</h2>
-                    <p>No theme edits. No site slowdown. No migration. You choose what runs, what goes live, and what stays Off limits.</p>
+                    <h2 id="how-title">Four steps. You're in control.</h2>
+                    <p>Zero theme edits · zero site slowdown · zero migration.</p>
                 </div>
                 <ol class="steps">
                     <li class="card">
@@ -1348,8 +1417,8 @@
                             <span class="step-num" aria-hidden="true">1</span>
                             <span class="status-pill status-pill-amber">Needs work</span>
                         </div>
-                        <h3>Sync your catalog</h3>
-                        <p>Bring your products into CatalogSchema. Open View Details to see what you can improve.</p>
+                        <h3>Sync catalog</h3>
+                        <p>Pull products in. View Details shows what to improve.</p>
                         <div class="card-meta"><span class="tag">Free</span></div>
                     </li>
                     <li class="card">
@@ -1358,7 +1427,7 @@
                             <span class="status-pill status-pill-amber">Draft</span>
                         </div>
                         <h3>Create AI drafts</h3>
-                        <p>Run AI Text Elevation on one product or a batch. Cap: 250 words. Always held as a draft—never auto-published.</p>
+                        <p>Elevate one product or a batch. Cap: 250 words. Draft only.</p>
                         <div class="card-meta"><span class="tag tag-accent">1 credit per elevation</span></div>
                     </li>
                     <li class="card">
@@ -1367,7 +1436,7 @@
                             <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
                         </div>
                         <h3>Review &amp; Publish</h3>
-                        <p>Read it, edit it, then approve. Only then does the copy go live on Shopify. Always free.</p>
+                        <p>Read, edit, approve. Only then it goes live.</p>
                         <div class="card-meta"><span class="tag">Free</span></div>
                     </li>
                     <li class="card">
@@ -1375,14 +1444,14 @@
                             <span class="step-num" aria-hidden="true">4</span>
                             <span class="status-pill status-pill-green">Optimized</span>
                         </div>
-                        <h3>Add facts &amp; assign SKUs</h3>
-                        <p>Publish clean price, stock, and SKU facts (JSON-LD) and assign SKUs. Off limits products are skipped.</p>
+                        <h3>Facts &amp; SKUs</h3>
+                        <p>JSON-LD for price/stock/SKU + assign SKUs. Off limits skipped.</p>
                         <div class="card-meta"><span class="tag tag-accent">1 credit per operation</span></div>
                     </li>
                 </ol>
                 <div class="callout">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5.5 5.6v5.1c0 4 2.7 7.1 6.5 8.8 3.8-1.7 6.5-4.8 6.5-8.8V5.6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.2 12 2 2 3.8-3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <p><strong>Nothing goes live without your approval.</strong> Drafts stay drafts until Review &amp; Publish. Off limits products stay out of elevation, product-fact, and SKU runs.</p>
+                    <p><strong>Nothing goes live without your approval.</strong> Drafts wait for Review &amp; Publish. Off limits stay out of elevation, product-fact, and SKU runs.</p>
                 </div>
             </div>
         </section>
@@ -1393,14 +1462,14 @@
                 <div class="section-head">
                     <p class="kicker">The silent shift</p>
                     <h2 id="showcase-title">Why clean product facts matter now.</h2>
-                    <p>Shoppers increasingly ask AI shopping tools—not only traditional search. If details are unclear or missing, those tools may guess—or never mention your products. CatalogSchema makes your catalog easier to read: copy you approved, plus clear price, stock, and SKUs.</p>
+                    <p>Shoppers ask AI tools—not only traditional search. Unclear details → guesswork or silence. CatalogSchema: approved copy + clear price, stock, and SKUs.</p>
                 </div>
 
                 <article class="showcase-banner" aria-labelledby="banner-compare-title">
                     <div class="showcase-banner-head">
                         <div>
                             <h3 id="banner-compare-title">Guesswork vs. CatalogSchema</h3>
-                            <p>Without clear product facts, AI tools fill in blanks or skip you. With CatalogSchema, they can read descriptions you approved and accurate price, stock, and SKU details—added through App Embed, without touching your theme.</p>
+                            <p>App Embed only—no theme edits. Drop a dashboard screenshot in the slot below when ready.</p>
                         </div>
                         <div class="showcase-pills" aria-hidden="true">
                             <span class="status-pill status-pill-amber">Incomplete</span>
@@ -1409,28 +1478,35 @@
                             <span class="status-pill status-pill-electric">JSON-LD</span>
                         </div>
                     </div>
+                    <div class="shot-slot" aria-label="Dashboard screenshot placeholder">
+                        <div class="shot-slot-placeholder">
+                            <span>Screenshot slot · 16:10</span>
+                            <small>Replace with dashboard compare capture (no layout shift)</small>
+                        </div>
+                        <!-- <img src="assets/showcase-compare.png" alt="CatalogSchema dashboard comparison" width="1600" height="1000" /> -->
+                    </div>
                     <div class="compare-grid">
                         <div class="compare-card compare-card-incomplete">
                             <div class="compare-card-head">
-                                <h4>Without clear product facts</h4>
+                                <h4>Without clear facts</h4>
                                 <span class="status-pill status-pill-amber">Needs work</span>
                             </div>
                             <ul class="compare-list">
                                 <li>
                                     <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
-                                    <span><strong>Messy or outdated descriptions</strong> leave AI shopping tools guessing—or skipping your products entirely.</span>
+                                    <span><strong>Messy descriptions</strong> → guesswork or skip</span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
-                                    <span><strong>Missing price and stock details</strong> make search and AI tools guess availability from old or incomplete pages.</span>
+                                    <span><strong>Missing price &amp; stock</strong></span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
-                                    <span><strong>Missing or inconsistent SKUs</strong> make it harder for systems—and AI tools—to match the right product.</span>
+                                    <span><strong>Incomplete SKUs</strong></span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-warn" aria-hidden="true">!</span>
-                                    <span><strong>Theme edits or migrations</strong> are often the only path people know—adding risk, downtime, and site drag.</span>
+                                    <span><strong>Theme edits / migration risk</strong></span>
                                 </li>
                             </ul>
                         </div>
@@ -1442,19 +1518,19 @@
                             <ul class="compare-list">
                                 <li>
                                     <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
-                                    <span><strong>Draft-first AI text elevation</strong> creates clear, no-fluff copy up to 250 words, held for <strong>Review &amp; Publish</strong> before anything goes live.</span>
+                                    <span><strong>Draft-first AI</strong> ≤ 250 words → <strong>Review &amp; Publish</strong></span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
-                                    <span><strong>Clean price &amp; stock facts (JSON-LD)</strong> so tools read your real offer instead of guessing.</span>
+                                    <span><strong>Price · stock · SKU JSON-LD</strong></span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
-                                    <span><strong>SKU assignment</strong> and <strong>product media detection</strong> keep catalog fields consistent and complete.</span>
+                                    <span><strong>SKU assignment</strong> + <strong>media detection</strong></span>
                                 </li>
                                 <li>
                                     <span class="compare-mark compare-mark-ok" aria-hidden="true">✓</span>
-                                    <span><strong>Zero theme-code changes</strong>, <strong>zero site slowdown</strong>, and <strong>zero migration</strong>: App Embed only—turn it off anytime.</span>
+                                    <span><strong>Zero theme edits · zero slowdown · zero migration</strong></span>
                                 </li>
                             </ul>
                             <div class="card-meta">
@@ -1469,8 +1545,8 @@
                 <article class="showcase-banner" aria-labelledby="banner-readiness-title">
                     <div class="showcase-banner-head">
                         <div>
-                            <h3 id="banner-readiness-title">What gets ready for search and AI</h3>
-                            <p>A simple checklist: price, stock, SKUs, media, and drafts waiting for your Review &amp; Publish—without theme edits or migration.</p>
+                            <h3 id="banner-readiness-title">Store readiness for search &amp; AI</h3>
+                            <p>Price, stock, SKUs, media, drafts—ready without theme edits or migration.</p>
                         </div>
                         <div class="showcase-pills" aria-hidden="true">
                             <span class="status-pill status-pill-blue">Search read</span>
@@ -1478,43 +1554,52 @@
                             <span class="status-pill status-pill-fuchsia">Review state</span>
                         </div>
                     </div>
-                    <div class="readiness-card">
-                        <div class="readiness-card-head">
-                            <h4>Store readiness at a glance</h4>
-                            <span class="status-pill status-pill-electric">Store signals</span>
+                    <div class="showcase-flow showcase-flow-split">
+                        <div class="shot-slot" aria-label="Readiness dashboard screenshot placeholder">
+                            <div class="shot-slot-placeholder">
+                                <span>Screenshot slot · dashboard</span>
+                                <small>Replace with readiness / product-list capture</small>
+                            </div>
+                            <!-- <img src="assets/showcase-readiness.png" alt="CatalogSchema store readiness dashboard" width="1600" height="1000" /> -->
                         </div>
-                        <ul class="readiness-rows">
-                            <li>
-                                <span class="readiness-label">Price</span>
-                                <span class="readiness-detail">Offer price shared in a format search and AI can read (JSON-LD)</span>
-                                <span class="status-pill status-pill-green">Ready</span>
-                            </li>
-                            <li>
-                                <span class="readiness-label">Stock / Availability</span>
-                                <span class="readiness-detail">In-stock and out-of-stock states kept current</span>
-                                <span class="status-pill status-pill-blue">Detected</span>
-                            </li>
-                            <li>
-                                <span class="readiness-label">SKUs</span>
-                                <span class="readiness-detail">Assigned and included in your product facts</span>
-                                <span class="status-pill status-pill-electric">Assigned</span>
-                            </li>
-                            <li>
-                                <span class="readiness-label">Media Detected</span>
-                                <span class="readiness-detail">Product images/media noted for a complete catalog read</span>
-                                <span class="status-pill status-pill-blue">Detected</span>
-                            </li>
-                            <li>
-                                <span class="readiness-label">Draft Ready</span>
-                                <span class="readiness-detail">AI draft waiting for Review &amp; Publish (always free)</span>
-                                <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
-                            </li>
-                            <li>
-                                <span class="readiness-label">Zero Migration</span>
-                                <span class="readiness-detail">App Embed only &middot; no theme-code edits, no site slowdown</span>
-                                <span class="status-pill status-pill-green">Zero migration</span>
-                            </li>
-                        </ul>
+                        <div class="readiness-card">
+                            <div class="readiness-card-head">
+                                <h4>Signals at a glance</h4>
+                                <span class="status-pill status-pill-electric">Store signals</span>
+                            </div>
+                            <ul class="readiness-rows">
+                                <li>
+                                    <span class="readiness-label">Price</span>
+                                    <span class="readiness-detail">JSON-LD offer price</span>
+                                    <span class="status-pill status-pill-green">Ready</span>
+                                </li>
+                                <li>
+                                    <span class="readiness-label">Stock</span>
+                                    <span class="readiness-detail">In / out of stock</span>
+                                    <span class="status-pill status-pill-blue">Detected</span>
+                                </li>
+                                <li>
+                                    <span class="readiness-label">SKUs</span>
+                                    <span class="readiness-detail">Assigned in product facts</span>
+                                    <span class="status-pill status-pill-electric">Assigned</span>
+                                </li>
+                                <li>
+                                    <span class="readiness-label">Media</span>
+                                    <span class="readiness-detail">Product media detected</span>
+                                    <span class="status-pill status-pill-blue">Detected</span>
+                                </li>
+                                <li>
+                                    <span class="readiness-label">Draft</span>
+                                    <span class="readiness-detail">Held for Review &amp; Publish (free)</span>
+                                    <span class="status-pill status-pill-fuchsia">Review &amp; Publish</span>
+                                </li>
+                                <li>
+                                    <span class="readiness-label">Migration</span>
+                                    <span class="readiness-detail">App Embed only · no slowdown</span>
+                                    <span class="status-pill status-pill-green">Zero migration</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <p class="showcase-note">Search engines and AI platforms independently determine whether, how, and when to use or display this information. CatalogSchema does not guarantee improved search rankings, rich-result display, AI citations, or increased website traffic. 1 operation = 1 credit for each billable action executed; Review &amp; Publish is free; credits never expire while the app is active.</p>
                 </article>
@@ -1650,8 +1735,8 @@
                 <a class="brand" href="#top" aria-label="CatalogSchema home">
                     <img class="brand-logo" src="logo.png" alt="CatalogSchema" onerror="this.hidden=true;this.nextElementSibling.hidden=false;" />
                     <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" hidden>
-                        <rect width="32" height="32" rx="8" fill="#00FFA3"/>
-                        <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#0B1120" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect width="32" height="32" rx="8" fill="#059669"/>
+                        <path d="M13 9.5c-2 0-3 1-3 3v1.8c0 1.1-.6 1.7-1.8 1.7 1.2 0 1.8.6 1.8 1.7v1.8c0 2 1 3 3 3M19 9.5c2 0 3 1 3 3v1.8c0 1.1.6 1.7 1.8 1.7-1.2 0-1.8.6-1.8 1.7v1.8c0 2-1 3-3 3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span aria-hidden="true">CatalogSchema</span>
                 </a>
